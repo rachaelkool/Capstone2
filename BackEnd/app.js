@@ -6,10 +6,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const ExpressError = require("./expressError")
 
+const notesRoutes = require("./routes/notes");
+app.use("/notes", notesRoutes);
 
-app.get('/', (req, res) => {
-  res.send("HOMEPAGE!!")
-})
 
 app.use(function (req, res, next) {
     const err = new ExpressError("Not Found", 404);
@@ -18,7 +17,6 @@ app.use(function (req, res, next) {
 
 app.use((err, req, res, next) => {
     res.status(err.status || 500);
-
     return res.json({
         error: err.message,
     });
