@@ -15,17 +15,17 @@ router.get("/:id", async function (req, res, next) {
 
 router.get("/", async function (req, res, next) {
     try {
-      const notes = await Notes.getAll();
-      return res.json({ notes });
+        const notes = await Notes.getAll();
+        return res.json({ notes });
     } catch (err) {
-      return next(err);
+        return next(err);
     }
 });
 
 router.post("/", async function (req, res, next) {
     try {
         const content = req.body.content;
-        const note = await Notes.create({content});
+        const note = await Notes.create(content);
         return res.status(201).json({ note });
     } catch (err) {
         return next(err);

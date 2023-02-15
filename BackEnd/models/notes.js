@@ -4,7 +4,6 @@ const ExpressError = require("../expressError");
 
 
 class Notes {
-
     static async get(id) {
         const result = await db.query(
             `SELECT id,
@@ -25,19 +24,18 @@ class Notes {
             `SELECT id,
                 content
                 FROM notes
-                ORDER BY id`,
-        );
+                ORDER BY id`);
     
         return result.rows;
     }
 
-    static async create({content}) {
+    static async create(data) {
         const result = await db.query(
             `INSERT INTO notes
                 (content)
                 VALUES ($1)
                 RETURNING id, content`,
-            [content],
+            [data],
         );
         const note = result.rows[0];
 
@@ -45,6 +43,19 @@ class Notes {
     }
 
     static async update(id, data) {
+        const result = await db.query(
+            `UPDATE notes
+               SET content = $1
+               WHERE id = $2
+               RETURNING id, content`,
+            [data, id]);
+
+            const note = result.rows[0];
+    
+            if (!note) throw new ExpressError(`No note with id ${id}`);
+
+            return note;
+
         // const { setCols, values } = sqlForPartialUpdate(
         //     data,
         //     {});
@@ -60,25 +71,11 @@ class Notes {
         // if (!note) throw new ExpressError(`No note with id ${id}`);
     
         // return note;
-
-
-        const result = await db.query(
-            `UPDATE notes
-               SET content = $1
-               WHERE id = $2
-               RETURNING id, content`,
-            [data, id]);
-
-            const note = result.rows[0];
-    
-            if (!note) throw new ExpressError(`No note with id ${id}`);
-
-            return note;
-        }
+    }
 
     static async remove(id) {
         const result = await db.query(
-          `DELETE FROM notes
+            `DELETE FROM notes
                 WHERE id = $1 
                 RETURNING id`,
             [id]);
@@ -86,11 +83,7 @@ class Notes {
         const note = result.rows[0];
 
         if (!note) throw new ExpressError(`No note with id ${id}`);
-    
-        // if (result.rows.length === 0) {
-        //   throw { message: `There is no book with an isbn '${isbn}`, status: 404 }
-        // }
-      }
+    }
 }
 
 
