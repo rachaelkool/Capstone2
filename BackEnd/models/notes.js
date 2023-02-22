@@ -1,15 +1,18 @@
 const db = require("../db");
 const ExpressError = require("../expressError");
-// const {sqlForPartialUpdate} = require('../helpers/sql');
 
 
 class Notes {
     static async get(id) {
         const result = await db.query(
-            `SELECT id,
-                content
-                FROM notes
-                WHERE id = $1`,
+            `SELECT n.id,
+                n.date,
+                n.content,
+                e.first_name,
+                e.last_name
+            FROM notes AS n 
+                JOIN employees AS e ON n.emp_id = e.employee_id
+            WHERE n.id = $1`,
             [id]);
 
         const note = result.rows[0];
@@ -21,10 +24,14 @@ class Notes {
 
     static async getAll() {
         const result = await db.query(
-            `SELECT id,
-                content
-                FROM notes
-                ORDER BY id`);
+            `SELECT n.id,
+                n.date,
+                n.content,
+                e.first_name,
+                e.last_name
+            FROM notes AS n
+                JOIN employees AS e ON n.emp_id = employee_id
+            ORDER BY id`);
     
         return result.rows;
     }
@@ -32,10 +39,12 @@ class Notes {
     static async create(data) {
         const result = await db.query(
             `INSERT INTO notes
-                (content)
-                VALUES ($1)
-                RETURNING id, content`,
-            [data],
+                (date, content, emp_id)
+                VALUES ($1, $2, $3)
+                RETURNING id, date, content, emp_id`,
+            [data.date,
+            data.content,
+            data.emp_id],
         );
         const note = result.rows[0];
 
@@ -47,7 +56,7 @@ class Notes {
             `UPDATE notes
                SET content = $1
                WHERE id = $2
-               RETURNING id, content`,
+               RETURNING id, date, content, emp_id`,
             [data, id]);
 
             const note = result.rows[0];
@@ -55,22 +64,6 @@ class Notes {
             if (!note) throw new ExpressError(`No note with id ${id}`);
 
             return note;
-
-        // const { setCols, values } = sqlForPartialUpdate(
-        //     data,
-        //     {});
-        // const idVarIdx = "$" + (values.length + 1);
-    
-        // const querySql = `UPDATE notes 
-        //                   SET ${setCols} 
-        //                   WHERE id = ${idVarIdx} 
-        //                   RETURNING id, content`;
-        // const result = await db.query(querySql, [...values, id]);
-        // const note = result.rows[0];
-    
-        // if (!note) throw new ExpressError(`No note with id ${id}`);
-    
-        // return note;
     }
 
     static async remove(id) {

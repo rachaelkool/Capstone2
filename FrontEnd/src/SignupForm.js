@@ -29,6 +29,15 @@ function SignupForm({ signup }) {
         setFormData(data => ({ ...data, [name]: value }));
     }
 
+    function handleChangeEmpId(e) {
+        const { name, value } = e.target;
+        if (isNaN(value)) {
+            alert('Employee ID cannot contain letters.');
+            return;
+        }
+        setFormData(data => ({ ...data, [name]: +value }));
+    }
+
     return (
         <div>
             <h4>Sign Up</h4>
@@ -38,7 +47,7 @@ function SignupForm({ signup }) {
                 <input
                     name="empId"
                     value={formData.empId}
-                    onChange={handleChange}
+                    onChange={handleChangeEmpId}
                     autoComplete="empId"
                     required
                 />

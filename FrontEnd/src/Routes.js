@@ -4,17 +4,18 @@ import Dashboard from "./Dashboard";
 import Notes from "./Notes";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
+import ProtectedRoute from "./ProtectedRoute"
+import EditNoteForm from "./EditNoteForm";
 
 
 function Routes({ login, signup }) {
-
     return (
         <div>
             <Switch>
-            <Route exact path="/">
-                <Dashboard />
-            </Route>
-
+            <ProtectedRoute exact path="/">
+              <Dashboard />
+            </ProtectedRoute> 
+            
             <Route exact path="/login">
                 <LoginForm login={login} />
             </Route>
@@ -23,9 +24,13 @@ function Routes({ login, signup }) {
                 <SignupForm signup={signup} />
             </Route>
 
-            <Route exact path="/notes">
+            <ProtectedRoute exact path="/notes">
                 <Notes />
-            </Route>
+            </ProtectedRoute>
+
+            <ProtectedRoute path="/notes/:id">
+                <EditNoteForm/>
+            </ProtectedRoute> 
 
             <Redirect to="/" />
             </Switch>

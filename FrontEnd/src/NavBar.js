@@ -10,10 +10,10 @@ function NavBar({logout}) {
         return (
             <div>
                 <div>
-                    <NavLink to="/notes">
-                    Notes
-                    </NavLink>
-                </div>
+                    <Link to="/">
+                    Dashboard
+                    </Link>
+                    </div>
                 <div>
                     <NavLink to="/profile">
                     Profile
@@ -47,9 +47,6 @@ function NavBar({logout}) {
 
     return (
         <nav>
-            <Link to="/">
-            Dashboard
-            </Link>
             {currentEmployee ? loggedInNavBar() : loggedOutNavBar()}
         </nav>
     );

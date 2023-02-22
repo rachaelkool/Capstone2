@@ -6,8 +6,10 @@ const { createToken } = require("../helpers/tokens");
 const router = express.Router();
 const employeeNewSchema = require("../schemas/employeeNew.json");
 const employeeUpdateSchema = require("../schemas/employeeUpdate.json");
+const { ensureCorrectEmployee, ensureAdmin, ensureLoggedIn } = require("../middleware/auth");
 
 
+// ?
 router.post("/", async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, employeeNewSchema);
@@ -24,7 +26,7 @@ router.post("/", async function (req, res, next) {
   }
 });
 
-router.get("/", async function (req, res, next) {
+router.get("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const employees = await Employee.getAll();
     return res.json({ employees });
@@ -42,7 +44,7 @@ router.get("/:empId", async function (req, res, next) {
   }
 });
 
-router.patch("/:empId", async function (req, res, next) {
+router.patch("/:empId", ensureCorrectEmployee, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, employeeUpdateSchema);
     if (!validator.valid) {
@@ -56,9 +58,7 @@ router.patch("/:empId", async function (req, res, next) {
   }
 });
 
-
-
-router.delete("/:empId", async function (req, res, next) {
+router.delete("/:empId", ensureAdmin, async function (req, res, next) {
   try {
     await Employee.remove(req.params.empId);
     return res.json({ deleted: req.params.empId });
@@ -66,8 +66,6 @@ router.delete("/:empId", async function (req, res, next) {
     return next(err);
   }
 });
-
-
 
 
 module.exports = router;

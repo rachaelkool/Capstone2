@@ -1,8 +1,10 @@
 const Router = require("express").Router;
 const router = new Router();
 const Notes = require("../models/notes");
+const { ensureCorrectEmployee, ensureAdmin, ensureLoggedIn } = require("../middleware/auth");
 
 
+// logged in
 router.get("/:id", async function (req, res, next) {
     try {
         id = req.params.id
@@ -13,6 +15,7 @@ router.get("/:id", async function (req, res, next) {
     }
 });
 
+// logged in
 router.get("/", async function (req, res, next) {
     try {
         const notes = await Notes.getAll();
@@ -22,16 +25,18 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-router.post("/", async function (req, res, next) {
+// logged in or admin/ correct user?
+router.post("", async function (req, res, next) {
     try {
-        const content = req.body.content;
-        const note = await Notes.create(content);
+        const data = req.body;
+        const note = await Notes.create(data);
         return res.status(201).json({ note });
     } catch (err) {
         return next(err);
     }
 });
 
+// admin or correct user
 router.patch("/:id", async function (req, res, next) {
     try {
         const id = req.params.id
@@ -43,6 +48,7 @@ router.patch("/:id", async function (req, res, next) {
     }
   });
 
+// admin or correct user
 router.delete("/:id", async function (req, res, next) {
     try {
         id = req.params.id

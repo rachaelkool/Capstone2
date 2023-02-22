@@ -34,6 +34,25 @@ class DashboardApi {
       return res.notes;
     }
 
+    static async getNote(id) {
+      let res = await this.request(`notes/${id}`);
+      return res.note;
+    }
+
+    static async createNote(data) {
+      let res = await this.request(`notes`, data, "post");
+      return res.note;
+    }
+
+    static async updateNote(id, data) {
+      let res = await this.request(`notes/${id}`, data, "patch");
+      return res.note;
+    }
+
+    static async deleteNote(id) {
+      await this.request(`notes/${id}`, id, "delete");
+    }
+
     static async login(data) {
       let res = await this.request(`auth/token`, data, "post");
       return res.token;
@@ -48,6 +67,8 @@ class DashboardApi {
       let res = await this.request(`employees/${empId}`);
       return res.employee;
     }
+
+    
   
   }
   

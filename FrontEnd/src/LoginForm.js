@@ -26,6 +26,15 @@ function LoginForm({ login }) {
         setFormData(data => ({ ...data, [name]: value }));
     }
 
+    function handleChangeEmpId(e) {
+        const { name, value } = e.target;
+        if (isNaN(value)) {
+            alert('Employee ID cannot contain letters.');
+            return;
+        }
+        setFormData(data => ({ ...data, [name]: +value }));
+    }
+
     return (
         <div>
             <h4>Log In</h4>
@@ -35,7 +44,7 @@ function LoginForm({ login }) {
                 <input
                     name="empId"
                     value={formData.empId}
-                    onChange={handleChange}
+                    onChange={handleChangeEmpId}
                     autoComplete="empId"
                     required
                 />
