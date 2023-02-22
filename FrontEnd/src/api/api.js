@@ -82,6 +82,10 @@ class DashboardApi {
       return res.employee;
     }
 
+    static async updateProfile(empId, data) {
+      let res = await this.request(`employees/${empId}`, data, "patch");
+      return res.employee;
+    }
     
   
   }

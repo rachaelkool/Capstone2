@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import UserContext from "./UserContext";
 import DashboardApi from "./api/api";
 
@@ -12,9 +12,9 @@ function NewNoteForm({addNote, date}) {
 
     const [formErrors, setFormErrors] = useState([]);
 
+
     async function handleSubmit(e) {
         e.preventDefault();
-        let newNote;
         let noteData = {
             date: date,
             content: formData.content,
@@ -23,10 +23,8 @@ function NewNoteForm({addNote, date}) {
         addNote(noteData)
         setFormData({content:''})
 
-        console.log(noteData);
-
         try {
-            newNote = await DashboardApi.createNote(noteData);
+            await DashboardApi.createNote(noteData);
         } catch (e) {
             setFormErrors(e);
         return;
@@ -41,6 +39,8 @@ function NewNoteForm({addNote, date}) {
         setFormData(data => ({ ...data, [name]: value }));
         setFormErrors([]);
     }
+
+    
 
     return (
         <div>
