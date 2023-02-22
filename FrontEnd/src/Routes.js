@@ -6,6 +6,7 @@ import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import ProtectedRoute from "./ProtectedRoute"
 import EditNoteForm from "./EditNoteForm";
+import Incidents from "./Incidents";
 
 
 function Routes({ login, signup }) {
@@ -28,9 +29,9 @@ function Routes({ login, signup }) {
                 <Notes />
             </ProtectedRoute>
 
-            <ProtectedRoute path="/notes/:id">
-                <EditNoteForm/>
-            </ProtectedRoute> 
+            <ProtectedRoute exact path="/incidents">
+                <Incidents />
+            </ProtectedRoute>
 
             <Redirect to="/" />
             </Switch>

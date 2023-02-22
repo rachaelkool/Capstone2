@@ -53,6 +53,20 @@ class DashboardApi {
       await this.request(`notes/${id}`, id, "delete");
     }
 
+    static async deleteIncident(id) {
+      await this.request(`incidents/${id}`, id, "delete");
+    }
+
+    static async getIncidents() {
+      let res = await this.request(`incidents`);
+      return res.incidents;
+    }
+
+    static async createIncident(data) {
+      let res = await this.request(`incidents`, data, "post");
+      return res.incident;
+    }
+
     static async login(data) {
       let res = await this.request(`auth/token`, data, "post");
       return res.token;

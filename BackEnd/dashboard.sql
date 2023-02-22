@@ -8,6 +8,7 @@ CREATE DATABASE dashboard;
 
 DROP TABLE IF EXISTS employees CASCADE;
 DROP TABLE notes;
+DROP TABLE incidents;
 
 CREATE TABLE employees (
   employee_id INTEGER PRIMARY KEY,
@@ -19,9 +20,16 @@ CREATE TABLE employees (
 
 CREATE TABLE notes (
   id SERIAL PRIMARY KEY,
-  date DATE,
+  date TEXT,
   content TEXT NOT NULL,
   emp_id INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
+);
+
+CREATE TABLE incidents (
+  id SERIAL PRIMARY KEY,
+  date TEXT,
+  description TEXT NOT NULL,
+  entered_by INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
 );
 
 INSERT INTO employees (employee_id, password, first_name, last_name, is_admin)
@@ -41,28 +49,41 @@ VALUES ('2023-02-22',
         'This is a test note',
         1001);
 
+INSERT INTO incidents (date, description, entered_by)
+VALUES ('2023-02-22',
+        'This is a test incident',
+        1001);
 
-\echo 'Delete and recreate dashboard_test db?'
-\prompt 'Return for yes or control-C to cancel > ' foo
 
-DROP DATABASE dashboard_test;
-CREATE DATABASE dashboard_test;
-\connect dashboard_test
+-- \echo 'Delete and recreate dashboard_test db?'
+-- \prompt 'Return for yes or control-C to cancel > ' foo
 
-DROP TABLE IF EXISTS employees CASCADE;
-DROP TABLE IF EXISTS notes;
+-- DROP DATABASE dashboard_test;
+-- CREATE DATABASE dashboard_test;
+-- \connect dashboard_test
 
-CREATE TABLE employees (
-  employee_id INTEGER PRIMARY KEY,
-  password TEXT NOT NULL,
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
-  is_admin BOOLEAN NOT NULL DEFAULT FALSE
-);
+-- DROP TABLE IF EXISTS employees CASCADE;
+-- DROP TABLE notes;
+-- DROP TABLE incidents;
 
-CREATE TABLE notes (
-  id SERIAL PRIMARY KEY,
-  date DATE,
-  content TEXT NOT NULL,
-  emp_id INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
-);
+-- CREATE TABLE employees (
+--   employee_id INTEGER PRIMARY KEY,
+--   password TEXT NOT NULL,
+--   first_name TEXT NOT NULL,
+--   last_name TEXT NOT NULL,
+--   is_admin BOOLEAN NOT NULL DEFAULT FALSE
+-- );
+
+-- CREATE TABLE notes (
+--   id SERIAL PRIMARY KEY,
+--   date TEXT,
+--   content TEXT NOT NULL,
+--   emp_id INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
+-- );
+
+-- CREATE TABLE incidents (
+--   id SERIAL PRIMARY KEY,
+--   date TEXT,
+--   description TEXT NOT NULL,
+--   entered_by INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
+-- );

@@ -15,9 +15,12 @@ app.use(authenticateJWT)
 const notesRoutes = require("./routes/notes");
 const authRoutes = require("./routes/auth");
 const employeesRoutes = require("./routes/employees");
+const incidentsRoutes = require("./routes/incidents");
 app.use("/notes", notesRoutes);
 app.use("/auth", authRoutes);
 app.use("/employees", employeesRoutes);
+app.use("/incidents", incidentsRoutes);
+
 
 
 app.use(function (req, res, next) {

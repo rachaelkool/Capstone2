@@ -24,6 +24,8 @@ function Dashboard() {
                 <DateSelecter setDate={setNewDate}/>
                  <p> Welcome Back, {currentEmployee.firstName}!</p>
                 <Link to={{pathname: `/notes`, state: { date: date }}}>Notes</Link>
+                <Link to={{pathname: `/incidents`, state: { date: date }}}>Incidents</Link>
+
             </div>
         );
     }
@@ -31,7 +33,7 @@ function Dashboard() {
     function loggedOutDashboard() {
         return (
             <div>
-                <p>Log in to view dashboard.</p>
+                <p>Please log in to view dashboard.</p>
             </div>
         );
     }
