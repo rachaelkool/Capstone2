@@ -7,6 +7,8 @@ import SignupForm from "./SignupForm";
 import ProtectedRoute from "./ProtectedRoute"
 import Incidents from "./Incidents";
 import EditProfileForm from "./EditProfileForm";
+import EditNoteForm from "./EditNoteForm";
+
 
 
 function Routes({ login, signup }) {
@@ -27,6 +29,10 @@ function Routes({ login, signup }) {
 
             <ProtectedRoute exact path="/notes">
                 <Notes />
+            </ProtectedRoute>
+
+            <ProtectedRoute exact path="/notes/:id">
+                <EditNoteForm />
             </ProtectedRoute>
 
             <ProtectedRoute exact path="/incidents">

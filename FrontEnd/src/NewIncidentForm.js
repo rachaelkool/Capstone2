@@ -7,6 +7,9 @@ function NewIncidentForm({addIncident, date}) {
     const { currentEmployee } = useContext(UserContext);
 
     const [formData, setFormData] = useState({
+        severity: 0,
+        reporting_manager: '', 
+        witness: '',
         description: ''
     });
 
@@ -17,11 +20,19 @@ function NewIncidentForm({addIncident, date}) {
         let newIncident;
         let incidentData = {
             date: date,
+            severity: formData.severity,
+            reporting_manager: formData.reporting_manager || null,
+            witness: formData.witness || null,
             description: formData.description,
             entered_by: currentEmployee.empId
         };
         addIncident(incidentData)
-        setFormData({description:''})
+        setFormData({ 
+            severity: 0,
+            reporting_manager: '', 
+            witness: '',
+            description: ''
+        })
 
         console.log(incidentData);
 
@@ -47,7 +58,34 @@ function NewIncidentForm({addIncident, date}) {
             <div>
                 <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="description"></label>
+                    <label htmlFor="severity">Severity (0-5):</label>
+                    <input
+                        name="severity"
+                        type="number"
+                        min="0"
+                        max="5"
+                        value={formData.severity}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="reporting_manager">Reporting Manager:</label>
+                    <input
+                        name="reporting_manager"
+                        value={formData.reporting_manager}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="witness">Witness:</label>
+                    <input
+                        name="witness"
+                        value={formData.witness}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="description">Description:</label>
                     <input
                         name="description"
                         value={formData.description}

@@ -26,6 +26,9 @@ class Incidents {
         const result = await db.query(
             `SELECT i.id,
                 i.date,
+                i.severity,
+                i.reporting_manager,
+                i.witness,
                 i.description,
                 e.first_name,
                 e.last_name
@@ -39,10 +42,13 @@ class Incidents {
     static async create(data) {
         const result = await db.query(
             `INSERT INTO incidents
-                (date, description, entered_by)
-                VALUES ($1, $2, $3)
-                RETURNING id, date, description, entered_by`,
+                (date, severity, reporting_manager, witness, description, entered_by)
+                VALUES ($1, $2, $3, $4, $5, $6)
+                RETURNING id, date, severity, reporting_manager, witness, description, entered_by`,
             [data.date,
+            data.severity,
+            data.reporting_manager,
+            data.witness,
             data.description,
             data.entered_by],
         );
@@ -54,9 +60,12 @@ class Incidents {
     static async update(id, data) {
         const result = await db.query(
             `UPDATE incidents
-               SET description = $1
-               WHERE id = $2
-               RETURNING id, date, description, entered_by`,
+               SET severity = $1, 
+                reporting_manager = $2,
+                witness = $3,
+                description = $4
+               WHERE id = $5
+               RETURNING id, date, severity, reporting_manager, witness, description, entered_by`,
             [data, id]);
 
             const incident = result.rows[0];

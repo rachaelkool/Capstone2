@@ -28,6 +28,9 @@ CREATE TABLE notes (
 CREATE TABLE incidents (
   id SERIAL PRIMARY KEY,
   date TEXT,
+  severity INTEGER NOT NULL,
+  reporting_manager TEXT,
+  witness TEXT,
   description TEXT NOT NULL,
   entered_by INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
 );
@@ -49,8 +52,11 @@ VALUES ('2023-02-22',
         'This is a test note',
         1001);
 
-INSERT INTO incidents (date, description, entered_by)
+INSERT INTO incidents (date, severity, reporting_manager, witness, description, entered_by)
 VALUES ('2023-02-22',
+        3,
+        'Rachael',
+        null,
         'This is a test incident',
         1001);
 
@@ -84,6 +90,9 @@ VALUES ('2023-02-22',
 -- CREATE TABLE incidents (
 --   id SERIAL PRIMARY KEY,
 --   date TEXT,
+--   severity INTEGER NOT NULL,
+--   reporting_manager TEXT,
+--   witness TEXT,
 --   description TEXT NOT NULL,
 --   entered_by INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
 -- );

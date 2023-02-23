@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DashboardApi from "./api/api";
 import NewNoteForm from "./NewNoteForm";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 
 function Notes() {
@@ -40,7 +40,7 @@ function Notes() {
                     <div key={index} className="notes_wrapper" style={{display:'flex'}}>
                         <div>{note.content}</div>
                         <button onClick={() => removeNote(note)} className="delete">x</button>
-                    </div>
+                        <Link to={{pathname: `/notes/${note.id}`}}>Edit</Link>                    </div>
                 ))}
             </div>
             <br></br>

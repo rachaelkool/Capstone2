@@ -17,7 +17,7 @@ function Incidents() {
 
     const removeIncident = async (incident) => {
         await DashboardApi.deleteIncident(incident.id);
-        setIncidents(incidents => incidents.filter(n => n.description !== incident.description));
+        setIncidents(incidents => incidents.filter(i => i.description !== incident.description));
     };
 
     useEffect(function getIncidentsForDashboard() {
@@ -40,7 +40,7 @@ function Incidents() {
                 <h2>Incidents from {data.state.date}</h2>
                 {todaysIncidents.map((incident, index) => (
                     <div key={index} className="incidents_wrapper" style={{display:'flex'}}>
-                        <div>{incident.description}</div>
+                        <div>{incident.severity} {incident.description}</div>
                         <button onClick={() => removeIncident(incident)} className="delete">x</button>
                     </div>
                 ))}

@@ -81,6 +81,7 @@ function EditProfileForm() {
                 <button>Update Profile</button>
                 </form>
             </div>
+
         </div>
     );
 }

@@ -1,10 +1,21 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import UserContext from "./UserContext";
 import DashboardApi from "./api/api";
 
 
-function EditNoteForm({setNotes}) {
+function EditNoteForm() {
     const { currentEmployee } = useContext(UserContext);
+
+    const { id } = useParams();
+    const [note, setNote] = useState('');
+
+    useEffect(function getCurrentNote() {
+        async function getNote() {
+            setNote(await DashboardApi.getNote(id));
+        }
+        getNote();
+    }, [id]);
 
     const [formData, setFormData] = useState({
         content: ''
@@ -14,24 +25,24 @@ function EditNoteForm({setNotes}) {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        let employee_id = currentEmployee.empId;
         let updatedNote;
         let noteData = {
-            content: formData.content,
+            date: note.date,
+            content: formData.content || note.content,
             emp_id: currentEmployee.empId
         };
-        // addNote(noteData)
-        // setFormData({content:''})
 
         try {
-            updatedNote = await DashboardApi.updateNote(noteData);
+            updatedNote = await DashboardApi.updateNote(id, noteData);
         } catch (e) {
             setFormErrors(e);
-        return;
+            return;
         }
         
-        setFormData(data => ({ ...data }));
+        setFormData(data => ({ ...data}));
         setFormErrors([]);
-        setNotes(updatedNote);
+        setNote(updatedNote);
     }
 
     function handleChange(e) {
@@ -50,9 +61,10 @@ function EditNoteForm({setNotes}) {
                         name="content"
                         value={formData.content}
                         onChange={handleChange}
+                        placeholder={note.content}
                     />
                 </div>
-                <button>Save</button>
+                <button>Update</button>
                 </form>
             </div>
         </div>
