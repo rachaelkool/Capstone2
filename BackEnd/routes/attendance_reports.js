@@ -1,6 +1,6 @@
 const Router = require("express").Router;
 const router = new Router();
-const Incidents = require("../models/incidents");
+const AttendanceReports = require("../models/attendance_reports");
 const { ensureCorrectEmployee, ensureAdmin, ensureLoggedIn } = require("../middleware/auth");
 
 
@@ -8,8 +8,8 @@ const { ensureCorrectEmployee, ensureAdmin, ensureLoggedIn } = require("../middl
 router.get("/:id", async function (req, res, next) {
     try {
         id = req.params.id
-        const incident = await Incidents.get(id);
-        return res.json({ incident });
+        const attendance_report = await AttendanceReports.get(id);
+        return res.json({ attendance_report });
     } catch (err) {
         return next(err);
     }
@@ -18,8 +18,8 @@ router.get("/:id", async function (req, res, next) {
 // logged in
 router.get("/", async function (req, res, next) {
     try {
-        const incidents = await Incidents.getAll();
-        return res.json({ incidents });
+        const attendance_reports = await AttendanceReports.getAll();
+        return res.json({ attendance_reports });
     } catch (err) {
         return next(err);
     }
@@ -29,8 +29,8 @@ router.get("/", async function (req, res, next) {
 router.post("", async function (req, res, next) {
     try {
         const data = req.body;
-        const incident = await Incidents.create(data);
-        return res.status(201).json({ incident });
+        const attendance_report = await AttendanceReports.create(data);
+        return res.status(201).json({ attendance_report });
     } catch (err) {
         return next(err);
     }
@@ -41,8 +41,8 @@ router.patch("/:id", async function (req, res, next) {
     try {
         const id = req.params.id
         const data = req.body;
-        const incident = await Incidents.update(id, data);
-        return res.json({ incident });
+        const attendance_report = await AttendanceReports.update(id, data);
+        return res.json({ attendance_report });
     } catch (err) {
         return next(err);
     }
@@ -52,8 +52,8 @@ router.patch("/:id", async function (req, res, next) {
 router.delete("/:id", async function (req, res, next) {
     try {
         id = req.params.id
-        await Incidents.remove(id);
-        return res.json({ message: "Incident deleted" });
+        await AttendanceReports.remove(id);
+        return res.json({ message: "Employee attendance report deleted" });
     } catch (err) {
         return next(err);
     }

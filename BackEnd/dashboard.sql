@@ -9,6 +9,7 @@ CREATE DATABASE dashboard;
 DROP TABLE IF EXISTS employees CASCADE;
 DROP TABLE notes;
 DROP TABLE incidents;
+DROP TABLE employee_attendance_reports;
 
 CREATE TABLE employees (
   employee_id INTEGER PRIMARY KEY,
@@ -35,6 +36,15 @@ CREATE TABLE incidents (
   entered_by INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
 );
 
+CREATE TABLE employee_attendance_reports (
+  id SERIAL PRIMARY KEY,
+  date TEXT,
+  sick_time boolean DEFAULT false,
+  tardy boolean DEFAULT false,
+  no_show boolean DEFAULT false,
+  emp_id INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
+);
+
 INSERT INTO employees (employee_id, password, first_name, last_name, is_admin)
 VALUES (1001,
         '$2b$12$7Uu3nf.wi0wpaUz.AQimQOyQfX6w5xUWNRQ1oLP7XquOdDXvVV1N6',
@@ -58,6 +68,13 @@ VALUES ('2023-02-22',
         'Rachael',
         null,
         'This is a test incident',
+        1001);
+
+INSERT INTO employee_attendance_reports (date, sick_time, tardy, no_show, emp_id)
+VALUES ('2023-02-22',
+        true,
+        false,
+        false,
         1001);
 
 

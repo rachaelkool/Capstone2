@@ -16,11 +16,12 @@ const notesRoutes = require("./routes/notes");
 const authRoutes = require("./routes/auth");
 const employeesRoutes = require("./routes/employees");
 const incidentsRoutes = require("./routes/incidents");
+const attendanceRoutes = require("./routes/attendance_reports");
 app.use("/notes", notesRoutes);
 app.use("/auth", authRoutes);
 app.use("/employees", employeesRoutes);
 app.use("/incidents", incidentsRoutes);
-
+app.use("/attendance", attendanceRoutes);
 
 
 app.use(function (req, res, next) {

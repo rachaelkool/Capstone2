@@ -1,5 +1,6 @@
 const db = require("../db");
 const ExpressError = require("../expressError");
+const { sqlForPartialUpdate } = require("../helpers/sql");
 
 
 class Incidents {
@@ -7,6 +8,9 @@ class Incidents {
         const result = await db.query(
             `SELECT i.id,
                 i.date,
+                i.severity,
+                i.reporting_manager,
+                i.witness,
                 i.description,
                 e.first_name,
                 e.last_name
@@ -58,21 +62,35 @@ class Incidents {
     }
 
     static async update(id, data) {
-        const result = await db.query(
-            `UPDATE incidents
-               SET severity = $1, 
-                reporting_manager = $2,
-                witness = $3,
-                description = $4
-               WHERE id = $5
-               RETURNING id, date, severity, reporting_manager, witness, description, entered_by`,
-            [data, id]);
-
-            const incident = result.rows[0];
+        const { setCols, values } = sqlForPartialUpdate(
+            data,
+            {
+              id: "id",
+              date: "date",
+              severity: "severity",
+              reporting_manager: "reporting_manager",
+              witness: "witness",
+              description: "description",
+              entered_by: "entered_by"
+            });
+        const idVarIdx = "$" + (values.length + 1);
     
-            if (!incident) throw new ExpressError(`No incident with id ${id}`);
-
-            return incident;
+        const querySql = `UPDATE incidents
+                          SET ${setCols} 
+                          WHERE id = ${idVarIdx} 
+                          RETURNING id,
+                                    date,
+                                    severity,
+                                    reporting_manager,
+                                    witness,
+                                    description, 
+                                    entered_by`;
+        const result = await db.query(querySql, [...values, id]);
+        const incident = result.rows[0];
+    
+        if (!incident) throw new expressError(`No incident ${id}`);
+    
+        return incident;
     }
 
     static async remove(id) {
