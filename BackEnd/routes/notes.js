@@ -5,7 +5,7 @@ const { ensureCorrectEmployee, ensureAdmin, ensureLoggedIn } = require("../middl
 
 
 // logged in
-router.get("/:id", async function (req, res, next) {
+router.get("/:id", ensureLoggedIn, async function (req, res, next) {
     try {
         id = req.params.id
         const note = await Notes.get(id);
@@ -16,7 +16,7 @@ router.get("/:id", async function (req, res, next) {
 });
 
 // logged in
-router.get("/", async function (req, res, next) {
+router.get("/", ensureLoggedIn, async function (req, res, next) {
     try {
         const notes = await Notes.getAll();
         return res.json({ notes });
@@ -25,8 +25,8 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-// logged in or admin/ correct user?
-router.post("", async function (req, res, next) {
+// correct user
+router.post("", ensureCorrectEmployee, async function (req, res, next) {
     try {
         const data = req.body;
         const note = await Notes.create(data);
@@ -36,8 +36,8 @@ router.post("", async function (req, res, next) {
     }
 });
 
-// admin or correct user
-router.patch("/:id", async function (req, res, next) {
+// correct user
+router.patch("/:id", ensureCorrectEmployee, async function (req, res, next) {
     try {
         const id = req.params.id
         const content = req.body.content
@@ -48,8 +48,8 @@ router.patch("/:id", async function (req, res, next) {
     }
   });
 
-// admin or correct user
-router.delete("/:id", async function (req, res, next) {
+// correct user
+router.delete("/:id", ensureCorrectEmployee, async function (req, res, next) {
     try {
         id = req.params.id
         await Notes.remove(id);

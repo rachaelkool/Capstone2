@@ -8,7 +8,11 @@ import ProtectedRoute from "./ProtectedRoute"
 import Incidents from "./Incidents";
 import EditProfileForm from "./EditProfileForm";
 import EditNoteForm from "./EditNoteForm";
-
+import EditIncidentForm from "./EditIncidentForm";
+import AttendanceReports from "./AttendanceReports";
+import EditAttendanceReportForm from "./EditAttendanceReportForm";
+import Tips from "./Tips";
+import EditTipForm from "./EditTipForm";
 
 
 function Routes({ login, signup }) {
@@ -37,6 +41,26 @@ function Routes({ login, signup }) {
 
             <ProtectedRoute exact path="/incidents">
                 <Incidents />
+            </ProtectedRoute>
+
+            <ProtectedRoute exact path="/incidents/:id">
+                <EditIncidentForm />
+            </ProtectedRoute>
+
+            <ProtectedRoute exact path="/attendance">
+                <AttendanceReports />
+            </ProtectedRoute>
+
+            <ProtectedRoute exact path="/attendance/:id">
+                <EditAttendanceReportForm />
+            </ProtectedRoute>
+
+            <ProtectedRoute exact path="/tips">
+                <Tips />
+            </ProtectedRoute>
+
+            <ProtectedRoute exact path="/tips/:id">
+                <EditTipForm />
             </ProtectedRoute>
 
             <ProtectedRoute path="/profile">

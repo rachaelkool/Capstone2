@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DashboardApi from "./api/api";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import NewIncidentForm from "./NewIncidentForm";
 
 
@@ -42,6 +42,7 @@ function Incidents() {
                     <div key={index} className="incidents_wrapper" style={{display:'flex'}}>
                         <div>{incident.severity} {incident.description}</div>
                         <button onClick={() => removeIncident(incident)} className="delete">x</button>
+                        <Link to={{pathname: `/incidents/${incident.id}`}}>Edit</Link>  
                     </div>
                 ))}
             </div>

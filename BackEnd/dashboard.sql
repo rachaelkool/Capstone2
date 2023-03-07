@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS employees CASCADE;
 DROP TABLE notes;
 DROP TABLE incidents;
 DROP TABLE employee_attendance_reports;
+DROP TABLE tips;
+
 
 CREATE TABLE employees (
   employee_id INTEGER PRIMARY KEY,
@@ -39,10 +41,20 @@ CREATE TABLE incidents (
 CREATE TABLE employee_attendance_reports (
   id SERIAL PRIMARY KEY,
   date TEXT,
-  sick_time boolean DEFAULT false,
-  tardy boolean DEFAULT false,
-  no_show boolean DEFAULT false,
-  emp_id INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
+  emp_id INTEGER NOT NULL,
+  sick_time TEXT,
+  tardy TEXT,
+  no_show TEXT,
+  entered_by INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
+);
+
+CREATE TABLE tips (
+  id SERIAL PRIMARY KEY,
+  date TEXT,
+  total_sales DECIMAL NOT NULL,
+  tip_percentage DECIMAL NOT NULL,
+  total_tips DECIMAL NOT NULL,
+  entered_by INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
 );
 
 INSERT INTO employees (employee_id, password, first_name, last_name, is_admin)
@@ -70,11 +82,19 @@ VALUES ('2023-02-22',
         'This is a test incident',
         1001);
 
-INSERT INTO employee_attendance_reports (date, sick_time, tardy, no_show, emp_id)
+INSERT INTO employee_attendance_reports (date, emp_id, sick_time, tardy, no_show, entered_by)
 VALUES ('2023-02-22',
-        true,
-        false,
-        false,
+        1001,
+        'true',
+        'false',
+        'false',
+        2001);
+
+INSERT INTO tips (date, total_sales, tip_percentage, total_tips, entered_by)
+VALUES ('2023-02-22',
+        325.50,
+        20,
+        65.1,
         1001);
 
 

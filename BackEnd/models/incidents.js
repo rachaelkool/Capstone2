@@ -88,7 +88,7 @@ class Incidents {
         const result = await db.query(querySql, [...values, id]);
         const incident = result.rows[0];
     
-        if (!incident) throw new expressError(`No incident ${id}`);
+        if (!incident) throw new ExpressError(`No incident with id ${id}`);
     
         return incident;
     }

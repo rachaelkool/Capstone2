@@ -1,14 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 import UserContext from "./UserContext";
 import DashboardApi from "./api/api";
 
 
 function EditNoteForm() {
     const { currentEmployee } = useContext(UserContext);
-
     const { id } = useParams();
     const [note, setNote] = useState('');
+    const history = useHistory();
 
     useEffect(function getCurrentNote() {
         async function getNote() {
@@ -35,6 +35,8 @@ function EditNoteForm() {
 
         try {
             updatedNote = await DashboardApi.updateNote(id, noteData);
+            alert('updated')
+            history.push("/");
         } catch (e) {
             setFormErrors(e);
             return;
@@ -54,6 +56,7 @@ function EditNoteForm() {
     return (
         <div>
             <div>
+
                 <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="content"></label>

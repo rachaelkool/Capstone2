@@ -12,7 +12,6 @@ function NewNoteForm({addNote, date}) {
 
     const [formErrors, setFormErrors] = useState([]);
 
-
     async function handleSubmit(e) {
         e.preventDefault();
         let noteData = {

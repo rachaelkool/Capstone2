@@ -9,7 +9,7 @@ import moment from 'moment';
 
 function Dashboard() {
     
-    const [date, setDate] = useState('2023-02-21');
+    const [date, setDate] = useState('2023-02-22');
 
     const { currentEmployee } = useContext(UserContext);
 
@@ -25,7 +25,8 @@ function Dashboard() {
                  <p> Welcome Back, {currentEmployee.firstName}!</p>
                 <Link to={{pathname: `/notes`, state: { date: date }}}>Notes</Link>
                 <Link to={{pathname: `/incidents`, state: { date: date }}}>Incidents</Link>
-
+                <Link to={{pathname: `/attendance`, state: { date: date }}}>Employee Attendance Reports</Link>
+                <Link to={{pathname: `/tips`, state: { date: date }}}>Tips</Link>
             </div>
         );
     }

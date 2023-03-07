@@ -8,13 +8,13 @@ class AttendanceReports {
         const result = await db.query(
             `SELECT a.id,
                 a.date,
+                a.emp_id,
                 a.sick_time,
                 a.tardy,
-                a.no_show,
-                e.first_name,
-                e.last_name
+                a.no_show, 
+                a.entered_by
             FROM employee_attendance_reports AS a 
-                JOIN employees AS e ON a.emp_id = e.employee_id
+                JOIN employees AS e ON a.entered_by = e.employee_id
             WHERE a.id = $1`,
             [id]);
 
@@ -29,13 +29,13 @@ class AttendanceReports {
         const result = await db.query(
             `SELECT a.id,
                 a.date,
+                a.emp_id,
                 a.sick_time,
                 a.tardy,
-                a.no_show,
-                e.first_name,
-                e.last_name
+                a.no_show, 
+                a.entered_by
             FROM employee_attendance_reports AS a
-                JOIN employees AS e ON a.emp_id = e.employee_id
+                JOIN employees AS e ON a.entered_by = e.employee_id
             ORDER BY id`);
     
         return result.rows;
@@ -44,14 +44,15 @@ class AttendanceReports {
     static async create(data) {
         const result = await db.query(
             `INSERT INTO employee_attendance_reports
-                (date, sick_time, tardy, no_show, emp_id)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING id, date, sick_time, tardy, no_show, emp_id`,
+                (date, emp_id, sick_time, tardy, no_show, entered_by)
+                VALUES ($1, $2, $3, $4, $5, $6)
+                RETURNING id, date, emp_id, sick_time, tardy, no_show, entered_by`,
             [data.date,
+            data.emp_id,
             data.sick_time,
             data.tardy,
             data.no_show,
-            data.enmp_id],
+            data.entered_by],
         );
         const attendance_report = result.rows[0];
 
@@ -64,10 +65,11 @@ class AttendanceReports {
             {
               id: "id",
               date: "date",
+              emp_id: "emp_id",
               sick_time: "sick_time",
               tardy: "tardy",
               no_show: "no_show",
-              emp_id: "emp_id"
+              entered_by: "entered_by"
             });
         const idVarIdx = "$" + (values.length + 1);
     
@@ -76,6 +78,7 @@ class AttendanceReports {
                           WHERE id = ${idVarIdx} 
                           RETURNING id,
                                     date,
+                                    emp_id,
                                     sick_time,
                                     tardy,
                                     no_show,
@@ -83,7 +86,7 @@ class AttendanceReports {
         const result = await db.query(querySql, [...values, id]);
         const attendance_report = result.rows[0];
     
-        if (!attendance_report) throw new expressError(`No attendance report ${id}`);
+        if (!attendance_report) throw new ExpressError(`No attendance report ${id}`);
     
         return attendance_report;
     }

@@ -17,11 +17,13 @@ const authRoutes = require("./routes/auth");
 const employeesRoutes = require("./routes/employees");
 const incidentsRoutes = require("./routes/incidents");
 const attendanceRoutes = require("./routes/attendance_reports");
+const tipsRoutes = require("./routes/tips");
 app.use("/notes", notesRoutes);
 app.use("/auth", authRoutes);
 app.use("/employees", employeesRoutes);
 app.use("/incidents", incidentsRoutes);
 app.use("/attendance", attendanceRoutes);
+app.use("/tips", tipsRoutes);
 
 
 app.use(function (req, res, next) {

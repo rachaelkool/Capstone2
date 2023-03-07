@@ -67,6 +67,64 @@ class DashboardApi {
       return res.incident;
     }
 
+    static async getIncident(id) {
+      let res = await this.request(`incidents/${id}`);
+      return res.incident;
+    }
+
+    static async updateIncident(id, data) {
+      let res = await this.request(`incidents/${id}`, data, "patch");
+      return res.incident;
+    }
+
+    static async getAttendanceReports() {
+      let res = await this.request(`attendance`);
+      return res.attendance_reports;
+    }
+
+    static async createAttendanceReport(data) {
+      let res = await this.request(`attendance`, data, "post");
+      return res.attendance_report;
+    }
+
+    static async getAttendanceReport(id) {
+      let res = await this.request(`attendance/${id}`);
+      return res.attendance_report;
+    }
+
+    static async updateAttendanceReport(id, data) {
+      let res = await this.request(`attendance/${id}`, data, "patch");
+      return res.attendance_report;
+    }
+
+    static async deleteAttendanceReport(id) {
+      await this.request(`attendance/${id}`, id, "delete");
+    }
+
+    static async getTips() {
+      let res = await this.request(`tips`);
+      return res.tips;
+    }
+
+    static async createTip(data) {
+      let res = await this.request(`tips`, data, "post");
+      return res.tip;
+    }
+
+    static async getTip(id) {
+      let res = await this.request(`tips/${id}`);
+      return res.tip;
+    }
+
+    static async updateTip(id, data) {
+      let res = await this.request(`tips/${id}`, data, "patch");
+      return res.tip;
+    }
+
+    static async deleteTip(id) {
+      await this.request(`tips/${id}`, id, "delete");
+    }
+
     static async login(data) {
       let res = await this.request(`auth/token`, data, "post");
       return res.token;
