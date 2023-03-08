@@ -8,7 +8,6 @@ function NewTipForm({addTip, date}) {
 
     const [formData, setFormData] = useState({
         total_sales: 0,
-        tip_percentage : 0, 
         total_tips : 0
     });
 
@@ -20,14 +19,12 @@ function NewTipForm({addTip, date}) {
         let tipData = {
             date: date,
             total_sales: formData.total_sales,
-            tip_percentage: formData.tip_percentage,
             total_tips: formData.total_tips,
             entered_by: currentEmployee.empId
         };
         addTip(tipData)
         setFormData({ 
             total_sales: 0,
-            tip_percentage: 0, 
             total_tips: 0
         })
 
@@ -61,16 +58,6 @@ function NewTipForm({addTip, date}) {
                         type="number"
                         step="0.01"
                         value={formData.total_sales}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="tip_percentage">Tip Percentage:</label>
-                    <input
-                        name="tip_percentage"
-                        type="number"
-                        step="0.01"
-                        value={formData.tip_percentage}
                         onChange={handleChange}
                     />
                 </div>

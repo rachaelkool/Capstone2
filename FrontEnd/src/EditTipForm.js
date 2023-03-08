@@ -30,7 +30,6 @@ function EditTipForm() {
         let tipData = {
             date: tip.date,
             total_sales: formData.total_sales || tip.total_sales,
-            tip_percentage: formData.tip_percentage || tip.tip_percentage,
             total_tips: formData.total_tips || tip.total_tips,
             entered_by: currentEmployee.empId
         };
@@ -67,17 +66,6 @@ function EditTipForm() {
                         step="0.01"
                         value={formData.total_sales}
                         placeholder={tip.total_sales}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="tip_percentage">Tip Percentage:</label>
-                    <input
-                        name="tip_percentage"
-                        type="number"
-                        step="0.01"
-                        value={formData.tip_percentage}
-                        placeholder={tip.tip_percentage}
                         onChange={handleChange}
                     />
                 </div>

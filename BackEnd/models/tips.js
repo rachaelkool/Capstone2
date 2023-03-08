@@ -9,7 +9,6 @@ class Tips {
             `SELECT t.id,
                 t.date,
                 t.total_sales,
-                t.tip_percentage,
                 t.total_tips,
                 e.first_name,
                 e.last_name
@@ -30,7 +29,6 @@ class Tips {
             `SELECT t.id,
                 t.date,
                 t.total_sales,
-                t.tip_percentage,
                 t.total_tips,
                 e.first_name,
                 e.last_name
@@ -44,12 +42,11 @@ class Tips {
     static async create(data) {
         const result = await db.query(
             `INSERT INTO tips
-                (date, total_sales, tip_percentage, total_tips, entered_by)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING id, date, total_sales, tip_percentage, total_tips, entered_by`,
+                (date, total_sales, total_tips, entered_by)
+                VALUES ($1, $2, $3, $4)
+                RETURNING id, date, total_sales, total_tips, entered_by`,
             [data.date,
             data.total_sales,
-            data.tip_percentage,
             data.total_tips,
             data.entered_by],
         );
@@ -65,7 +62,6 @@ class Tips {
               id: "id",
               date: "date",
               total_sales: "total_sales",
-              tip_percentage: "tip_percentage",
               total_tips: "total_tips",
               entered_by: "entered_by"
             });
@@ -77,7 +73,6 @@ class Tips {
                           RETURNING id,
                                     date,
                                     total_sales,
-                                    tip_percentage,
                                     total_tips,
                                     entered_by`;
         const result = await db.query(querySql, [...values, id]);

@@ -41,7 +41,7 @@ function Tips() {
                 <h2>Tips from {data.state.date}</h2>
                 {todaysTips.map((tip, index) => (
                     <div key={index} className="tips_wrapper" style={{display:'flex'}}>
-                        <div>{tip.total_sales} {tip.percentage} {tip.total_tips}</div>
+                        <div>{tip.total_sales} {tip.total_tips}</div>
                         <button onClick={() => removeTip(tip)} className="delete">x</button>
                         <Link to={{pathname: `/tips/${tip.id}`}}>Edit</Link>  
                     </div>

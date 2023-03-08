@@ -52,7 +52,6 @@ CREATE TABLE tips (
   id SERIAL PRIMARY KEY,
   date TEXT,
   total_sales DECIMAL NOT NULL,
-  tip_percentage DECIMAL NOT NULL,
   total_tips DECIMAL NOT NULL,
   entered_by INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
 );
@@ -90,10 +89,9 @@ VALUES ('2023-02-22',
         'false',
         2001);
 
-INSERT INTO tips (date, total_sales, tip_percentage, total_tips, entered_by)
+INSERT INTO tips (date, total_sales, total_tips, entered_by)
 VALUES ('2023-02-22',
         325.50,
-        20,
         65.1,
         1001);
 

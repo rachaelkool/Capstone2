@@ -16,9 +16,11 @@ class DashboardApi {
       const params = (method === "get")
           ? data
           : {};
+
+      const headers = {authorization: DashboardApi.token}
   
       try {
-        return (await axios({ url, method, data, params })).data;
+        return (await axios({ url, headers, method, data, params })).data;
       } catch (err) {
         console.error("API Error:", err.response);
         // let message = err.response.data.error.message;
