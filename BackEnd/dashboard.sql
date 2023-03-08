@@ -5,13 +5,12 @@ DROP DATABASE dashboard;
 CREATE DATABASE dashboard;
 \connect dashboard
 
-
 DROP TABLE IF EXISTS employees CASCADE;
 DROP TABLE notes;
 DROP TABLE incidents;
 DROP TABLE employee_attendance_reports;
 DROP TABLE tips;
-
+DROP TABLE staff_reports;
 
 CREATE TABLE employees (
   employee_id INTEGER PRIMARY KEY,
@@ -56,6 +55,15 @@ CREATE TABLE tips (
   entered_by INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
 );
 
+CREATE TABLE staff_reports (
+  id SERIAL PRIMARY KEY,
+  date TEXT,
+  section TEXT,
+  guests_served INTEGER,
+  total_sales DECIMAL,
+  server INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
+);
+
 INSERT INTO employees (employee_id, password, first_name, last_name, is_admin)
 VALUES (1001,
         '$2b$12$7Uu3nf.wi0wpaUz.AQimQOyQfX6w5xUWNRQ1oLP7XquOdDXvVV1N6',
@@ -93,6 +101,13 @@ INSERT INTO tips (date, total_sales, total_tips, entered_by)
 VALUES ('2023-02-22',
         325.50,
         65.1,
+        1001);
+
+INSERT INTO staff_reports (date, section, guests_served, total_sales, server)
+VALUES ('2023-02-22',
+        '2a',
+        44,
+        670.25,
         1001);
 
 
