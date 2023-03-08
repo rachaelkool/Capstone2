@@ -3,14 +3,14 @@ import UserContext from "./UserContext";
 import DashboardApi from "./api/api";
 
 
-function NewAttendanceReportForm({addReport, date}) {
+function NewStaffReportForm({addReport, date}) {
     const { currentEmployee } = useContext(UserContext);
 
     const [formData, setFormData] = useState({
-        emp_id: 1000,
-        sick_time: false,
-        tardy: false, 
-        no_show: false
+        server: '',
+        section: '',
+        guests_served: 0,
+        total_sales: 0
     });
 
     const [formErrors, setFormErrors] = useState([]);
@@ -20,23 +20,23 @@ function NewAttendanceReportForm({addReport, date}) {
         let newReport;
         let reportData = {
             date: date,
-            emp_id: formData.emp_id,
-            sick_time: formData.sick_time || null,
-            tardy: formData.tardy || null,
-            no_show: formData.no_show || null,
-            entered_by: currentEmployee.empId
+            server: formData.server || null,
+            section: formData.section || null,
+            guests_served: formData.guests_served || null,
+            total_sales: formData.total_sales || null,
+            entered_by : currentEmployee.empId
         };
         console.log('reportData=', reportData);
         addReport(reportData)
         setFormData({ 
-            emp_id: 1000,
-            sick_time: '',
-            tardy: '', 
-            no_show: ''
+            server: '',
+            section: '',
+            guests_served: 0,
+            total_sales: 0
         })
 
         try {
-            newReport = await DashboardApi.createAttendanceReport(reportData);
+            newReport = await DashboardApi.createStaffReport(reportData);
         } catch (e) {
             setFormErrors(e);
         return;
@@ -57,44 +57,43 @@ function NewAttendanceReportForm({addReport, date}) {
             <div>
                 <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="emp_id">Employee ID:</label>
+                    <label htmlFor="server">Server:</label>
                     <input
-                        name="emp_id"
+                        name="server"
+                        value={formData.server}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="section">Section:</label>
+                    <input
+                        name="section"
+                        value={formData.section}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="guests_served">Guests Served:</label>
+                    <input
+                        name="guests_served"
                         type="number"
-                        min="0"
-                        max="3000"
-                        value={formData.emp_id}
+                        nim="0"
+                        max="2000"
+                        value={formData.guests_served}
                         onChange={handleChange}
                     />
                 </div>
                 <div>
-                    <label htmlFor="sick_time">Sick Time:</label>
+                    <label htmlFor="total_sales">Total Sales:</label>
                     <input
-                        name="sick_time"
-                        type="checkbox"
-                        value={formData.sick_time}
+                        name="total_sales"
+                        type="number"
+                        step="0.01"
+                        value={formData.total_sales}
                         onChange={handleChange}
                     />
                 </div>
-                <div>
-                    <label htmlFor="tardy">Tardy:</label>
-                    <input
-                        name="tardy"
-                        type="checkbox"
-                        value={formData.tardy}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="no_show">No Show:</label>
-                    <input
-                        name="no_show"
-                        type="checkbox"
-                        value={formData.no_show}
-                        onChange={handleChange}
-                    />
-                </div>
-                <button>Add Employee Attendance Report</button>
+                <button>Add Staff Report</button>
                 </form>
             </div>
         </div>
@@ -102,4 +101,4 @@ function NewAttendanceReportForm({addReport, date}) {
 }
 
 
-export default NewAttendanceReportForm;
+export default NewStaffReportForm;

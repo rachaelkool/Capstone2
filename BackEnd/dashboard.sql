@@ -58,10 +58,11 @@ CREATE TABLE tips (
 CREATE TABLE staff_reports (
   id SERIAL PRIMARY KEY,
   date TEXT,
+  server TEXT,
   section TEXT,
   guests_served INTEGER,
   total_sales DECIMAL,
-  server INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
+  entered_by INTEGER NOT NULL REFERENCES employees ON DELETE CASCADE
 );
 
 INSERT INTO employees (employee_id, password, first_name, last_name, is_admin)
@@ -103,12 +104,13 @@ VALUES ('2023-02-22',
         65.1,
         1001);
 
-INSERT INTO staff_reports (date, section, guests_served, total_sales, server)
+INSERT INTO staff_reports (date, server, section, guests_served, total_sales, entered_by)
 VALUES ('2023-02-22',
+        'Scooby',
         '2a',
-        44,
-        670.25,
-        1001);
+        300,
+        400.24,
+        2001);
 
 
 -- \echo 'Delete and recreate dashboard_test db?'

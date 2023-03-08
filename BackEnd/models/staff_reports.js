@@ -8,12 +8,13 @@ class StaffReports {
         const result = await db.query(
             `SELECT s.id,
                 s.date,
+                s.server,
                 s.section,
                 s.guests_served,
                 s.total_sales,
-                s.server
+                s.entered_by
             FROM staff_reports AS s 
-                JOIN employees AS e ON s.server = e.employee_id
+                JOIN employees AS e ON s.entered_by = e.employee_id
             WHERE s.id = $1`,
             [id]);
 
@@ -28,12 +29,13 @@ class StaffReports {
         const result = await db.query(
             `SELECT s.id,
                 s.date,
+                s.server,
                 s.section,
                 s.guests_served,
                 s.total_sales, 
-                s.server
+                s.entered_by
             FROM staff_reports AS s
-                JOIN employees AS e ON s.server = e.employee_id
+                JOIN employees AS e ON s.entered_by = e.employee_id
             ORDER BY id`);
     
         return result.rows;
@@ -42,14 +44,15 @@ class StaffReports {
     static async create(data) {
         const result = await db.query(
             `INSERT INTO staff_reports
-                (date, section, guests_served, total_sales, server)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING id, date, section, guests_served, total_sales, server`,
+                (date, server, section, guests_served, total_sales, entered_by)
+                VALUES ($1, $2, $3, $4, $5, $6)
+                RETURNING id, date, server, section, guests_served, total_sales, entered_by`,
             [data.date,
+            data.server,
             data.section,
             data.guests_served,
             data.total_sales,
-            data.server],
+            data.entered_by],
         );
         const staff_report = result.rows[0];
 
@@ -62,10 +65,11 @@ class StaffReports {
             {
               id: "id",
               date: "date",
+              server: "server",
               section: "section",
               guests_served: "guests_served",
               total_sales: "total_sales",
-              server: "server"
+              entered_by: "entered_by"
             });
         const idVarIdx = "$" + (values.length + 1);
     
@@ -74,10 +78,11 @@ class StaffReports {
                           WHERE id = ${idVarIdx} 
                           RETURNING id,
                                     date,
+                                    server,
                                     section,
                                     guests_served,
                                     total_sales,
-                                    server`;
+                                    entered_by`;
         const result = await db.query(querySql, [...values, id]);
         const staff_report = result.rows[0];
     

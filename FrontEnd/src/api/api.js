@@ -28,7 +28,6 @@ class DashboardApi {
       }
     }
   
-    // Individual API routes
 
   
     static async getNotes() {
@@ -125,6 +124,30 @@ class DashboardApi {
 
     static async deleteTip(id) {
       await this.request(`tips/${id}`, id, "delete");
+    }
+
+    static async getStaffReports() {
+      let res = await this.request(`staff`);
+      return res.staff_reports;
+    }
+
+    static async createStaffReport(data) {
+      let res = await this.request(`staff`, data, "post");
+      return res.staff_report;
+    }
+
+    static async getStaffReport(id) {
+      let res = await this.request(`staff/${id}`);
+      return res.staff_report;
+    }
+
+    static async updateStaffReport(id, data) {
+      let res = await this.request(`staff/${id}`, data, "patch");
+      return res.staff_report;
+    }
+
+    static async deleteStaffReport(id) {
+      await this.request(`staff/${id}`, id, "delete");
     }
 
     static async login(data) {

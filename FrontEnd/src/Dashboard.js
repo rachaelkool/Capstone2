@@ -27,6 +27,7 @@ function Dashboard() {
                 <Link to={{pathname: `/incidents`, state: { date: date }}}>Incidents</Link>
                 <Link to={{pathname: `/attendance`, state: { date: date }}}>Employee Attendance Reports</Link>
                 <Link to={{pathname: `/tips`, state: { date: date }}}>Tips</Link>
+                <Link to={{pathname: `/staff`, state: { date: date }}}>Staff Reports</Link>
             </div>
         );
     }

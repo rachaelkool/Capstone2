@@ -13,6 +13,8 @@ import AttendanceReports from "./AttendanceReports";
 import EditAttendanceReportForm from "./EditAttendanceReportForm";
 import Tips from "./Tips";
 import EditTipForm from "./EditTipForm";
+import StaffReports from "./StaffReports";
+import EditStaffReportForm from "./EditStaffReportForm";
 
 
 function Routes({ login, signup }) {
@@ -61,6 +63,14 @@ function Routes({ login, signup }) {
 
             <ProtectedRoute exact path="/tips/:id">
                 <EditTipForm />
+            </ProtectedRoute>
+
+            <ProtectedRoute exact path="/staff">
+                <StaffReports />
+            </ProtectedRoute>
+
+            <ProtectedRoute exact path="/staff/:id">
+                <EditStaffReportForm />
             </ProtectedRoute>
 
             <ProtectedRoute path="/profile">
