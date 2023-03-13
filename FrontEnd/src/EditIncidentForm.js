@@ -10,22 +10,22 @@ function EditIncidentForm() {
     const [incident, setIncident] = useState('');
     const history = useHistory();
 
+    const [formData, setFormData] = useState({});
+
     useEffect(function getCurrentIncident() {
         async function getIncident() {
-            setIncident(await DashboardApi.getIncident(id));
+            let incident = await DashboardApi.getIncident(id)
+            setIncident(incident);
+            setFormData(incident)
         }
         getIncident();
     }, [id]);
 
-    const [formData, setFormData] = useState({
-        content: ''
-    });
 
     const [formErrors, setFormErrors] = useState([]);
 
     async function handleSubmit(e) {
         e.preventDefault();
-        let employee_id = currentEmployee.empId;
         let updatedIncident;
         let incidentData = {
             date: incident.date,
@@ -46,21 +46,20 @@ function EditIncidentForm() {
         }
         
         setFormData(data => ({ ...data}));
-        setFormErrors([]);
         setIncident(updatedIncident);
     }
 
     function handleChange(e) {
         const { name, value } = e.target;
         setFormData(data => ({ ...data, [name]: value }));
-        setFormErrors([]);
     }
 
     return (
-        <div>
-            <div>
-            <form onSubmit={handleSubmit}>
-                <div>
+        <div className="feature-container">
+            <h3>Input Incident</h3>
+            <div className="form">
+            <form className="ui form" onSubmit={handleSubmit}>
+                <div className="field">
                     <label htmlFor="severity">Severity (0-5):</label>
                     <input
                         name="severity"
@@ -72,7 +71,7 @@ function EditIncidentForm() {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="reporting_manager">Reporting Manager:</label>
                     <input
                         name="reporting_manager"
@@ -81,7 +80,7 @@ function EditIncidentForm() {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="witness">Witness:</label>
                     <input
                         name="witness"
@@ -91,7 +90,7 @@ function EditIncidentForm() {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="description">Description:</label>
                     <input
                         name="description"

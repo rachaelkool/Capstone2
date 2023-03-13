@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useParams, Link, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import UserContext from "./UserContext";
 import DashboardApi from "./api/api";
+import './css/features.css'
 
 
 function EditTipForm() {
@@ -10,22 +11,19 @@ function EditTipForm() {
     const [tip, setTip] = useState('');
     const history = useHistory();
 
+    const [formData, setFormData] = useState({});
+
     useEffect(function getCurrentTip() {
         async function getTip() {
-            setTip(await DashboardApi.getTip(id));
+            let tip = await DashboardApi.getTip(id)
+            setTip(tip);
+            setFormData(tip)
         }
         getTip();
     }, [id]);
 
-    const [formData, setFormData] = useState({
-        content: ''
-    });
-
-    const [formErrors, setFormErrors] = useState([]);
-
     async function handleSubmit(e) {
         e.preventDefault();
-        let employee_id = currentEmployee.empId;
         let updatedTip;
         let tipData = {
             date: tip.date,
@@ -39,44 +37,40 @@ function EditTipForm() {
             alert('updated')
             history.push("/");
         } catch (e) {
-            setFormErrors(e);
             return;
         }
         
         setFormData(data => ({ ...data}));
-        setFormErrors([]);
         setTip(updatedTip);
     }
 
     function handleChange(e) {
         const { name, value } = e.target;
         setFormData(data => ({ ...data, [name]: value }));
-        setFormErrors([]);
     }
 
     return (
-        <div>
-            <div>
-            <form onSubmit={handleSubmit}>
-                <div>
+        <div className="feature-container">
+            <h3>Input Tips</h3>
+            <div className="form">
+            <form className="ui form" onSubmit={handleSubmit}>
+                <div className="field">
                     <label htmlFor="total_sales">Total Sales:</label>
                     <input
                         name="total_sales"
                         type="number"
                         step="0.01"
                         value={formData.total_sales}
-                        placeholder={tip.total_sales}
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="total_tips">Total Tips:</label>
                     <input
                         name="total_tips"
                         type="number"
                         step="0.01"
                         value={formData.total_tips}
-                        placeholder={tip.total_tips}
                         onChange={handleChange}
                     />
                 </div>

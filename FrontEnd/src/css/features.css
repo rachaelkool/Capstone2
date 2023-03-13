@@ -1,0 +1,17 @@
+.feature-container {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.feature-header {
+    text-align: center;
+}
+
+.delete-row:hover {
+    cursor: pointer;
+}
+
+.form {
+    width: 200px;
+}

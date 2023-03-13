@@ -1,18 +1,19 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import UserContext from "./UserContext";
 import DashboardApi from "./api/api";
+import './css/features.css'
 
 
 function EditProfileForm() {
     const { currentEmployee, setCurrentEmployee } = useContext(UserContext);
+    const history = useHistory();
 
     const [formData, setFormData] = useState({
         password: "",
-        firstName: "",
-        lastName: ""
+        firstName: currentEmployee.firstName,
+        lastName: currentEmployee.lastName
     });
-
-    const [formErrors, setFormErrors] = useState([]);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -26,39 +27,35 @@ function EditProfileForm() {
 
         try {
             updatedEmployee = await DashboardApi.updateProfile(employee_id, profileData);
+            alert('updated')
+            history.push("/");
         } catch (e) {
-            setFormErrors(e);
             return;
         }
         
         setFormData(data => ({ ...data, password: "" }));
-        setFormErrors([]);
         setCurrentEmployee(updatedEmployee);
     }
 
     function handleChange(e) {
         const { name, value } = e.target;
         setFormData(data => ({ ...data, [name]: value }));
-        setFormErrors([]);
     }
 
-
     return (
-        <div>
-            <h4>Employee Profile:</h4>
-            <div>
-                <form onSubmit={handleSubmit}>
-                <div>
+        <div className="feature-container">
+            <h3>Employee Profile</h3>
+            <div className="form">
+                <form className="ui form" onSubmit={handleSubmit}>
+                <div className="field">
                     <label htmlFor="firstName">First Name:</label>
                     <input
                         name="firstName"
                         value={formData.firstName}
                         onChange={handleChange}
-                        autoComplete="current-first-name"
-
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="lastName">Last Name:</label>
                     <input
                         name="lastName"
@@ -68,7 +65,7 @@ function EditProfileForm() {
 
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="password">Change Password:</label>
                     <input
                         type="password"
@@ -78,7 +75,7 @@ function EditProfileForm() {
                         autoComplete="current-password"
                     />
                 </div>
-                <button>Update Profile</button>
+                <button>Update</button>
                 </form>
             </div>
 

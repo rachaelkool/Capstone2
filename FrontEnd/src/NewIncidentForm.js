@@ -6,14 +6,7 @@ import DashboardApi from "./api/api";
 function NewIncidentForm({addIncident, date}) {
     const { currentEmployee } = useContext(UserContext);
 
-    const [formData, setFormData] = useState({
-        severity: 0,
-        reporting_manager: '', 
-        witness: '',
-        description: ''
-    });
-
-    const [formErrors, setFormErrors] = useState([]);
+    const [formData, setFormData] = useState({});
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -26,38 +19,29 @@ function NewIncidentForm({addIncident, date}) {
             description: formData.description,
             entered_by: currentEmployee.empId
         };
-        addIncident(incidentData)
-        setFormData({ 
-            severity: 0,
-            reporting_manager: '', 
-            witness: '',
-            description: ''
-        })
-
-        console.log(incidentData);
+        addIncident({...incidentData, first_name: currentEmployee.firstName, last_name:currentEmployee.lastName})
+        setFormData({})
 
         try {
             newIncident = await DashboardApi.createIncident(incidentData);
         } catch (e) {
-            setFormErrors(e);
-        return;
+            return;
         }
         
         setFormData(data => ({ ...data }));
-        setFormErrors([]);
     }
 
     function handleChange(e) {
         const { name, value } = e.target;
         setFormData(data => ({ ...data, [name]: value }));
-        setFormErrors([]);
     }
 
     return (
         <div>
-            <div>
-                <form onSubmit={handleSubmit}>
-                <div>
+            <div className='form'>
+                <form className="ui form" onSubmit={handleSubmit}>
+                <h3>Input Incident</h3>
+                <div className="field">
                     <label htmlFor="severity">Severity (0-5):</label>
                     <input
                         name="severity"
@@ -68,7 +52,7 @@ function NewIncidentForm({addIncident, date}) {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="reporting_manager">Reporting Manager:</label>
                     <input
                         name="reporting_manager"
@@ -76,7 +60,7 @@ function NewIncidentForm({addIncident, date}) {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="witness">Witness:</label>
                     <input
                         name="witness"
@@ -84,7 +68,7 @@ function NewIncidentForm({addIncident, date}) {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="description">Description:</label>
                     <input
                         name="description"
