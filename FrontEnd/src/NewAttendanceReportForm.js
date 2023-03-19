@@ -6,14 +6,7 @@ import DashboardApi from "./api/api";
 function NewAttendanceReportForm({addReport, date}) {
     const { currentEmployee } = useContext(UserContext);
 
-    const [formData, setFormData] = useState({
-        emp_id: 1000,
-        sick_time: false,
-        tardy: false, 
-        no_show: false
-    });
-
-    const [formErrors, setFormErrors] = useState([]);
+    const [formData, setFormData] = useState({});
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -26,37 +19,29 @@ function NewAttendanceReportForm({addReport, date}) {
             no_show: formData.no_show || null,
             entered_by: currentEmployee.empId
         };
-        console.log('reportData=', reportData);
-        addReport(reportData)
-        setFormData({ 
-            emp_id: 1000,
-            sick_time: '',
-            tardy: '', 
-            no_show: ''
-        })
+        addReport({...reportData})
+        setFormData({})
 
         try {
             newReport = await DashboardApi.createAttendanceReport(reportData);
         } catch (e) {
-            setFormErrors(e);
-        return;
+            return;
         }
         
         setFormData(data => ({ ...data }));
-        setFormErrors([]);
     }
 
     function handleChange(e) {
         const { name, value } = e.target;
         setFormData(data => ({ ...data, [name]: value }));
-        setFormErrors([]);
     }
 
     return (
         <div>
-            <div>
-                <form onSubmit={handleSubmit}>
-                <div>
+            <div className='form'>
+                <form className="ui form" onSubmit={handleSubmit}>
+                <h3>Input Attendance</h3>
+                <div className="field">
                     <label htmlFor="emp_id">Employee ID:</label>
                     <input
                         name="emp_id"
@@ -67,7 +52,7 @@ function NewAttendanceReportForm({addReport, date}) {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="sick_time">Sick Time:</label>
                     <input
                         name="sick_time"
@@ -76,7 +61,7 @@ function NewAttendanceReportForm({addReport, date}) {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="tardy">Tardy:</label>
                     <input
                         name="tardy"
@@ -85,7 +70,7 @@ function NewAttendanceReportForm({addReport, date}) {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="no_show">No Show:</label>
                     <input
                         name="no_show"
@@ -94,7 +79,7 @@ function NewAttendanceReportForm({addReport, date}) {
                         onChange={handleChange}
                     />
                 </div>
-                <button>Add Employee Attendance Report</button>
+                <button>Add Attendance</button>
                 </form>
             </div>
         </div>

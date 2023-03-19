@@ -49,21 +49,21 @@ function Incidents() {
                     </thead>
                     <tbody>
                     {todaysIncidents.map((incident, index) => (
-                    <tr key={index}>
-                        <td>{incident.first_name} {incident.last_name}</td>
-                        <td>{incident.description}</td>
-                        <td>{incident.severity}</td>
-                        <td>{incident.reporting_manager}</td>
-                        <td>{incident.witness}</td>
-                        <td>
-                            {currentEmployee && (currentEmployee.firstName === incident.first_name && currentEmployee.lastName === incident.last_name) ? 
-                              <Link to={{pathname: `/incidents/${incident.id}`}}>
-                                <i className="edit icon"></i>
-                            </Link> 
-                          : ''}
-                        </td>
-                        <td>{currentEmployee && (currentEmployee.firstName === incident.first_name && currentEmployee.lastName === incident.last_name) ? <div onClick={() => removeIncident(incident)} className="delete-row"><i className="trash alternate icon"></i></div> : ''}</td>
-                    </tr>
+                        <tr key={index}>
+                            <td>{incident.first_name} {incident.last_name}</td>
+                            <td>{incident.description}</td>
+                            <td>{incident.severity}</td>
+                            <td>{incident.reporting_manager}</td>
+                            <td>{incident.witness}</td>
+                            <td>
+                                {currentEmployee && (currentEmployee.firstName === incident.first_name && currentEmployee.lastName === incident.last_name) ? 
+                                <Link to={{pathname: `/incidents/${incident.id}`}}>
+                                    <i className="edit icon"></i>
+                                </Link> 
+                                : ''}
+                            </td>
+                            <td>{currentEmployee && (currentEmployee.firstName === incident.first_name && currentEmployee.lastName === incident.last_name) ? <div onClick={() => removeIncident(incident)} className="delete-row"><i className="trash alternate icon"></i></div> : ''}</td>
+                        </tr>
                     ))}
                     </tbody>
                 </table>

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useParams, Link, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import UserContext from "./UserContext";
 import DashboardApi from "./api/api";
 
@@ -21,9 +21,6 @@ function EditIncidentForm() {
         getIncident();
     }, [id]);
 
-
-    const [formErrors, setFormErrors] = useState([]);
-
     async function handleSubmit(e) {
         e.preventDefault();
         let updatedIncident;
@@ -41,7 +38,6 @@ function EditIncidentForm() {
             alert('updated')
             history.push("/");
         } catch (e) {
-            setFormErrors(e);
             return;
         }
         

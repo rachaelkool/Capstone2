@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import './css/features.css'
 
 
 function SignupForm({ signup }) {
@@ -12,15 +13,13 @@ function SignupForm({ signup }) {
         lastName: ""
     });
 
-    const [formErrors, setFormErrors] = useState([]);
-
     async function handleSubmit(e) {
         e.preventDefault();
         let result = await signup(formData);
         if (result.success) {
-        history.push("/");
+            history.push("/");
         } else {
-        setFormErrors(result.errors);
+            return;
         }
     }
 
@@ -39,50 +38,51 @@ function SignupForm({ signup }) {
     }
 
     return (
-        <div>
-            <h4>Sign Up</h4>
-            <form onSubmit={handleSubmit}>
-                <div>
-                <label htmlFor="empId">Employee ID:</label>
-                <input
-                    name="empId"
-                    value={formData.empId}
-                    onChange={handleChangeEmpId}
-                    autoComplete="empId"
-                    required
-                />
-                </div>
-                <div>
-                <label htmlFor="password">Password:</label>
-                <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    autoComplete="password"
-                    required
-                />
-                </div>
-                <div>
-                <label htmlFor="firstName">First Name:</label>
-                <input
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                />
-                </div>
-                <div>
-                <label htmlFor="lastName">Last Name:</label>
-                <input
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                />
-                </div>
-                
-                <button>Submit</button>
-            </form>
-            <p>{formErrors}</p>
+        <div className="logged-out-form">
+            <div className="form">
+                <h4>Sign Up</h4>
+                <form className="ui form" onSubmit={handleSubmit}>
+                    <div className="field">
+                    <label htmlFor="empId">Employee ID:</label>
+                    <input
+                        name="empId"
+                        value={formData.empId}
+                        onChange={handleChangeEmpId}
+                        autoComplete="empId"
+                        required
+                    />
+                    </div>
+                    <div className="field">
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        autoComplete="password"
+                        required
+                    />
+                    </div>
+                    <div className="field">
+                    <label htmlFor="firstName">First Name:</label>
+                    <input
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                    />
+                    </div>
+                    <div className="field">
+                    <label htmlFor="lastName">Last Name:</label>
+                    <input
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                    />
+                    </div>
+                    <br></br>
+                    <button>Submit</button>
+                </form>
+            </div>
         </div>
     );
 }

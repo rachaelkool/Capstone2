@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useParams, Link, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import UserContext from "./UserContext";
 import DashboardApi from "./api/api";
 
@@ -10,22 +10,19 @@ function EditNoteForm() {
     const [note, setNote] = useState('');
     const history = useHistory();
 
+    const [formData, setFormData] = useState({});
+
     useEffect(function getCurrentNote() {
         async function getNote() {
-            setNote(await DashboardApi.getNote(id));
+            let note = await DashboardApi.getNote(id)
+            setNote(note);
+            setFormData(note)
         }
         getNote();
     }, [id]);
 
-    const [formData, setFormData] = useState({
-        content: ''
-    });
-
-    const [formErrors, setFormErrors] = useState([]);
-
     async function handleSubmit(e) {
         e.preventDefault();
-        let employee_id = currentEmployee.empId;
         let updatedNote;
         let noteData = {
             date: note.date,
@@ -38,27 +35,24 @@ function EditNoteForm() {
             alert('updated')
             history.push("/");
         } catch (e) {
-            setFormErrors(e);
             return;
         }
         
         setFormData(data => ({ ...data}));
-        setFormErrors([]);
         setNote(updatedNote);
     }
 
     function handleChange(e) {
         const { name, value } = e.target;
         setFormData(data => ({ ...data, [name]: value }));
-        setFormErrors([]);
     }
 
     return (
-        <div>
-            <div>
-
-                <form onSubmit={handleSubmit}>
-                <div>
+        <div className="feature-container">
+            <h3>Input Note</h3>
+            <div className="form">
+                <form className="ui form" onSubmit={handleSubmit}>
+                <div className="field">
                     <label htmlFor="content"></label>
                     <input
                         name="content"

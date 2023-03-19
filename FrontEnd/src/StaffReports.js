@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import DashboardApi from "./api/api";
 import { useLocation, Link } from "react-router-dom";
 import NewStaffReportForm from "./NewStaffReportForm";
+import UserContext from "./UserContext";
 
 
 function StaffReports() {
+    const { currentEmployee } = useContext(UserContext);
     const [staff_reports, setReports] = useState('');
 
     let data = useLocation();
-
-    console.log(data)
     
     const addReport = (newReport) => {
         setReports(staff_reports => [...staff_reports, newReport]);
@@ -31,19 +31,40 @@ function StaffReports() {
 
     let todaysReports = staff_reports.filter(staff_report => staff_report.date.includes(data.state.date))
 
-    console.log(staff_reports)
-
     return (
-        <div>
+        <div className="feature-container">
             <div> 
-                <h2>Staff Reports from {data.state.date}</h2>
-                {todaysReports.map((staff_report, index) => (
-                    <div key={index} className="staff_reports_wrapper" style={{display:'flex'}}>
-                        <div>{staff_report.server} {staff_report.section} {staff_report.guests_served} {staff_report.total_sales}</div>
-                        <button onClick={() => removeReport(staff_report)} className="delete">x</button>
-                        <Link to={{pathname: `/staff/${staff_report.id}`}}>Edit</Link>  
-                    </div>
-                ))}
+                <h2 className="feature-header">Staff Reports from {data.state.date}</h2>
+                <table className="ui celled table">
+                    <thead>
+                        <tr>
+                            <th>Server</th>
+                            <th>Section</th>
+                            <th># of Guests Serverd</th>
+                            <th>Total Sales</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {todaysReports.map((staff_report, index) => (
+                        <tr key={index}>
+                            <td>{staff_report.server}</td>
+                            <td>{staff_report.section}</td>
+                            <td>{staff_report.guests_served}</td>
+                            <td>{staff_report.total_sales}</td>
+                            <td>
+                                {currentEmployee && (currentEmployee.empId === staff_report.entered_by) ? 
+                                <Link to={{pathname: `/staff/${staff_report.id}`}}>
+                                    <i className="edit icon"></i>
+                                </Link> 
+                                : ''}
+                            </td>
+                            <td>{currentEmployee && (currentEmployee.empId === staff_report.entered_by) ? <div onClick={() => removeReport(staff_report)} className="delete-row"><i className="trash alternate icon"></i></div> : ''}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>                
             </div>
             <br></br>
             <div>

@@ -10,22 +10,19 @@ function EditStaffReportForm() {
     const [report, setReport] = useState('');
     const history = useHistory();
 
+    const [formData, setFormData] = useState({});
+
     useEffect(function getCurrentReport() {
         async function getStaffReport() {
-            setReport(await DashboardApi.getStaffReport(id));
+            let report = await DashboardApi.getStaffReport(id)
+            setReport(report);
+            setFormData(report)
         }
         getStaffReport();
     }, [id]);
 
-    const [formData, setFormData] = useState({
-        content: ''
-    });
-
-    const [formErrors, setFormErrors] = useState([]);
-
     async function handleSubmit(e) {
         e.preventDefault();
-        let employee_id = currentEmployee.empId;
         let updatedReport;
         let reportData = {
             date: report.date,
@@ -41,26 +38,24 @@ function EditStaffReportForm() {
             alert('updated')
             history.push("/");
         } catch (e) {
-            setFormErrors(e);
             return;
         }
         
         setFormData(data => ({ ...data}));
-        setFormErrors([]);
         setReport(updatedReport);
     }
 
     function handleChange(e) {
         const { name, value } = e.target;
         setFormData(data => ({ ...data, [name]: value }));
-        setFormErrors([]);
     }
 
     return (
-        <div>
-            <div>
-            <form onSubmit={handleSubmit}>
-                <div>
+        <div className="feature-container">
+            <h3>Input Staff Report</h3>
+            <div className="form">
+            <form className="ui form" onSubmit={handleSubmit}>
+                <div className="field">
                     <label htmlFor="server">Server:</label>
                         <input
                             name="server"
@@ -69,7 +64,7 @@ function EditStaffReportForm() {
                             onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="section">Section:</label>
                     <input
                         name="section"
@@ -78,7 +73,7 @@ function EditStaffReportForm() {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="guests_served">Guests Served:</label>
                     <input
                         name="guests_served"
@@ -90,7 +85,7 @@ function EditStaffReportForm() {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="total_sales">Total Sales:</label>
                     <input
                         name="total_sales"

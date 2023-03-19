@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import './css/features.css'
 
 
 function LoginForm({ login }) {
@@ -9,15 +10,14 @@ function LoginForm({ login }) {
         empId: "",
         password: "",
     });
-    const [formErrors, setFormErrors] = useState([]);
 
     async function handleSubmit(e) {
         e.preventDefault();
         let result = await login(formData);
         if (result.success) {
-        history.push("/");
+            history.push("/");
         } else {
-        setFormErrors(result.errors);
+            return;
         }
     }
 
@@ -36,33 +36,35 @@ function LoginForm({ login }) {
     }
 
     return (
-        <div>
+        <div className="logged-out-form">
+            <div className="form">
             <h4>Log In</h4>
-            <form onSubmit={handleSubmit}>
-                <div>
-                <label htmlFor="empId">Employee ID:</label>
-                <input
-                    name="empId"
-                    value={formData.empId}
-                    onChange={handleChangeEmpId}
-                    autoComplete="empId"
-                    required
-                />
-                </div>
-                <div>
-                <label htmlFor="password">Password:</label>
-                <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    autoComplete="current-password"
-                    required
-                />
-                </div>
-                <button>Submit</button>
-            </form>
-            <p>{formErrors}</p>
+                <form className="ui form" onSubmit={handleSubmit}>
+                    <div className="field">
+                    <label htmlFor="empId">Employee ID:</label>
+                    <input
+                        name="empId"
+                        value={formData.empId}
+                        onChange={handleChangeEmpId}
+                        autoComplete="empId"
+                        required
+                    />
+                    </div>
+                    <div className="field">
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        autoComplete="current-password"
+                        required
+                    />
+                    </div>
+                    <br></br>
+                    <button>Submit</button>
+                </form>
+            </div>
         </div>
 
 

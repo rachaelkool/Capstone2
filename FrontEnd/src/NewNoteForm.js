@@ -6,46 +6,39 @@ import DashboardApi from "./api/api";
 function NewNoteForm({addNote, date}) {
     const { currentEmployee } = useContext(UserContext);
 
-    const [formData, setFormData] = useState({
-        content: ''
-    });
-
-    const [formErrors, setFormErrors] = useState([]);
+    const [formData, setFormData] = useState({});
 
     async function handleSubmit(e) {
         e.preventDefault();
+        let newNote;
         let noteData = {
             date: date,
             content: formData.content,
             emp_id: currentEmployee.empId
         };
-        addNote(noteData)
-        setFormData({content:''})
+        addNote({...noteData, first_name: currentEmployee.firstName, last_name:currentEmployee.lastName})
+        setFormData({})
 
         try {
-            await DashboardApi.createNote(noteData);
+            newNote = await DashboardApi.createNote(noteData);
         } catch (e) {
-            setFormErrors(e);
-        return;
+            return;
         }
         
         setFormData(data => ({ ...data }));
-        setFormErrors([]);
     }
 
     function handleChange(e) {
         const { name, value } = e.target;
         setFormData(data => ({ ...data, [name]: value }));
-        setFormErrors([]);
     }
-
-    
 
     return (
         <div>
-            <div>
-                <form onSubmit={handleSubmit}>
-                <div>
+            <div className='form'>
+                <form className="ui form"onSubmit={handleSubmit}>
+                <h3>Input Note</h3>
+                <div  className="field">
                     <label htmlFor="content"></label>
                     <input
                         name="content"
