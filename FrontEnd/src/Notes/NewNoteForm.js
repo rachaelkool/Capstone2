@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
-import UserContext from "./UserContext";
-import DashboardApi from "./api/api";
+import UserContext from "../UserContext";
+import DashboardApi from "../api/api";
 
 
 function NewNoteForm({addNote, date}) {

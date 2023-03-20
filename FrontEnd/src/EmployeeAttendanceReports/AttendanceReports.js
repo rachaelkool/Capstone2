@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import DashboardApi from "./api/api";
+import DashboardApi from "../api/api";
 import { useLocation, Link } from "react-router-dom";
 import NewAttendanceReportForm from "./NewAttendanceReportForm";
-import UserContext from "./UserContext";
+import UserContext from "../UserContext";
 
 
 function AttendanceReports() {
@@ -50,9 +50,9 @@ function AttendanceReports() {
                     {todaysReports.map((attendance_report, index) => (
                         <tr key={index}>
                             <td>{attendance_report.emp_id}</td>
-                            <td>{attendance_report.sick_time}</td>
-                            <td>{attendance_report.tardy}</td>
-                            <td>{attendance_report.no_show}</td>
+                            <td>{attendance_report.sick_time ? <i class="check icon"></i> : ''}</td>
+                            <td>{attendance_report.tardy ? <i class="check icon"></i> : ''}</td>
+                            <td>{attendance_report.no_show  ? <i class="check icon"></i> : ''}</td>
                             <td>
                                 {currentEmployee && (currentEmployee.empId === attendance_report.entered_by) ? 
                                 <Link to={{pathname: `/attendance/${attendance_report.id}`}}>

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useParams, Link, useHistory } from "react-router-dom";
-import UserContext from "./UserContext";
-import DashboardApi from "./api/api";
+import { useParams, useHistory } from "react-router-dom";
+import UserContext from "../UserContext";
+import DashboardApi from "../api/api";
 
 
 function EditAttendanceReportForm() {
@@ -15,6 +15,7 @@ function EditAttendanceReportForm() {
     useEffect(function getCurrentReport() {
         async function getAttendanceReport() {
             let report = await DashboardApi.getAttendanceReport(id)
+            console.log('report=', report);
             setReport(report);
             setFormData(report)
         }
@@ -27,9 +28,9 @@ function EditAttendanceReportForm() {
         let reportData = {
             date: report.date,
             emp_id: formData.emp_id || report.emp_id,
-            sick_time: formData.sick_time || report.sick_time,
-            tardy: formData.tardy || report.tardy,
-            no_show: formData.no_show || report.no_show,
+            sick_time: formData.sick_time || false,
+            tardy: formData.tardy || false,
+            no_show: formData.no_show || false,
             entered_by: currentEmployee.empId
         };
 
@@ -49,6 +50,13 @@ function EditAttendanceReportForm() {
         const { name, value } = e.target;
         setFormData(data => ({ ...data, [name]: value }));
     }
+
+    function handleCheckedChange(e) {
+        const { name, checked} = e.target;
+        setFormData(data => ({...data, [name]: checked}))
+    }
+
+    console.log(formData);
 
     return (
         <div className="feature-container">
@@ -71,28 +79,27 @@ function EditAttendanceReportForm() {
                     <label htmlFor="sick_time">Sick Time:</label>
                     <input
                         name="sick_time"
-                        value={formData.sick_time}
-                        placeholder={report.sick_time}
-                        onChange={handleChange}
+                        type="checkbox"
+                        checked={formData.sick_time}
+                        onChange={handleCheckedChange}
                     />
                 </div>
                 <div className="field">
                     <label htmlFor="tardy">Tardy:</label>
                     <input
                         name="tardy"
-                        value={formData.tardy}
-                        placeholder={report.tardy}
-                        onChange={handleChange}
+                        checked={formData.tardy}
+                        type="checkbox"
+                        onChange={handleCheckedChange}
                     />
                 </div>
                 <div className="field">
                     <label htmlFor="no_show">No Show:</label>
                     <input
                         name="no_show"
-                        value={formData.no_show}
-                        placeholder={report.no_show}
-
-                        onChange={handleChange}
+                        type='checkbox'
+                        checked={formData.no_show}
+                        onChange={handleCheckedChange}
                     />
                 </div>
                 <button>Update</button>

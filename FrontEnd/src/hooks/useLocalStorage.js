@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 
-const useLocalStorage= (key, defaultValue=null) => {
+const useLocalStorage = (key, defaultValue=null) => {
     const [state, setState] = useState(() => {
         let value
         try {

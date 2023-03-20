@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import UserContext from "./UserContext";
-import DashboardApi from "./api/api";
+import UserContext from "../UserContext";
+import DashboardApi from "../api/api";
 
 
 function NewStaffReportForm({addReport, date}) {

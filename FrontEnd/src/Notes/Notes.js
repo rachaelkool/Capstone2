@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import DashboardApi from "./api/api";
+import DashboardApi from "../api/api";
 import NewNoteForm from "./NewNoteForm";
 import { useLocation, Link } from "react-router-dom";
-import UserContext from "./UserContext";
-
+import UserContext from "../UserContext";
 
 function Notes() {
     const { currentEmployee } = useContext(UserContext);

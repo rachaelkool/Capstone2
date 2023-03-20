@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import UserContext from "./UserContext";
-import DashboardApi from "./api/api";
+import UserContext from "../UserContext";
+import DashboardApi from "../api/api";
 
 
 function NewAttendanceReportForm({addReport, date}) {
@@ -14,11 +14,12 @@ function NewAttendanceReportForm({addReport, date}) {
         let reportData = {
             date: date,
             emp_id: formData.emp_id,
-            sick_time: formData.sick_time || null,
-            tardy: formData.tardy || null,
-            no_show: formData.no_show || null,
+            sick_time: formData.sick_time || false,
+            tardy: formData.tardy || false,
+            no_show: formData.no_show || false,
             entered_by: currentEmployee.empId
         };
+        console.log(formData);
         addReport({...reportData})
         setFormData({})
 
@@ -34,6 +35,11 @@ function NewAttendanceReportForm({addReport, date}) {
     function handleChange(e) {
         const { name, value } = e.target;
         setFormData(data => ({ ...data, [name]: value }));
+    }
+
+    function handleCheckedChange(e) {
+        const { name, checked} = e.target;
+        setFormData(data => ({...data, [name]: checked}))
     }
 
     return (
@@ -57,8 +63,8 @@ function NewAttendanceReportForm({addReport, date}) {
                     <input
                         name="sick_time"
                         type="checkbox"
-                        value={formData.sick_time}
-                        onChange={handleChange}
+                        checked={formData.sick_time}
+                        onChange={handleCheckedChange}
                     />
                 </div>
                 <div className="field">
@@ -66,8 +72,8 @@ function NewAttendanceReportForm({addReport, date}) {
                     <input
                         name="tardy"
                         type="checkbox"
-                        value={formData.tardy}
-                        onChange={handleChange}
+                        checked={formData.tardy}
+                        onChange={handleCheckedChange}
                     />
                 </div>
                 <div className="field">
@@ -75,8 +81,8 @@ function NewAttendanceReportForm({addReport, date}) {
                     <input
                         name="no_show"
                         type="checkbox"
-                        value={formData.no_show}
-                        onChange={handleChange}
+                        checked={formData.no_show}
+                        onChange={handleCheckedChange}
                     />
                 </div>
                 <button>Add Attendance</button>

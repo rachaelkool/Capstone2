@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import DashboardApi from "./api/api";
+import DashboardApi from "../api/api";
 import { useLocation, Link } from "react-router-dom";
 import NewTipForm from "./NewTipForm";
-import UserContext from "./UserContext";
-import './css/features.css'
+import UserContext from "../UserContext";
 
 
 function Tips() {

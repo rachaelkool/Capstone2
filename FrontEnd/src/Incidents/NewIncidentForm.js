@@ -1,48 +1,34 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import UserContext from "./UserContext";
-import DashboardApi from "./api/api";
+import React, { useState, useContext } from "react";
+import UserContext from "../UserContext";
+import DashboardApi from "../api/api";
 
 
-function EditIncidentForm() {
+function NewIncidentForm({addIncident, date}) {
     const { currentEmployee } = useContext(UserContext);
-    const { id } = useParams();
-    const [incident, setIncident] = useState('');
-    const history = useHistory();
 
     const [formData, setFormData] = useState({});
 
-    useEffect(function getCurrentIncident() {
-        async function getIncident() {
-            let incident = await DashboardApi.getIncident(id)
-            setIncident(incident);
-            setFormData(incident)
-        }
-        getIncident();
-    }, [id]);
-
     async function handleSubmit(e) {
         e.preventDefault();
-        let updatedIncident;
+        let newIncident;
         let incidentData = {
-            date: incident.date,
-            severity: formData.severity || incident.severity,
-            reporting_manager: formData.reporting_manager || incident.reporting_manager,
-            witness: formData.witness || incident.witness,
-            description: formData.description || incident.description,
+            date: date,
+            severity: formData.severity,
+            reporting_manager: formData.reporting_manager || null,
+            witness: formData.witness || null,
+            description: formData.description,
             entered_by: currentEmployee.empId
         };
+        addIncident({...incidentData, first_name: currentEmployee.firstName, last_name:currentEmployee.lastName})
+        setFormData({})
 
         try {
-            updatedIncident = await DashboardApi.updateIncident(id, incidentData);
-            alert('updated')
-            history.push("/");
+            newIncident = await DashboardApi.createIncident(incidentData);
         } catch (e) {
             return;
         }
         
-        setFormData(data => ({ ...data}));
-        setIncident(updatedIncident);
+        setFormData(data => ({ ...data }));
     }
 
     function handleChange(e) {
@@ -51,10 +37,10 @@ function EditIncidentForm() {
     }
 
     return (
-        <div className="feature-container">
-            <h3>Input Incident</h3>
-            <div className="form">
-            <form className="ui form" onSubmit={handleSubmit}>
+        <div>
+            <div className='form'>
+                <form className="ui form" onSubmit={handleSubmit}>
+                <h3>Input Incident</h3>
                 <div className="field">
                     <label htmlFor="severity">Severity (0-5):</label>
                     <input
@@ -63,7 +49,6 @@ function EditIncidentForm() {
                         min="0"
                         max="5"
                         value={formData.severity}
-                        placeholder={incident.severity}
                         onChange={handleChange}
                     />
                 </div>
@@ -72,7 +57,6 @@ function EditIncidentForm() {
                     <input
                         name="reporting_manager"
                         value={formData.reporting_manager}
-                        placeholder={incident.reporting_manager}
                         onChange={handleChange}
                     />
                 </div>
@@ -81,8 +65,6 @@ function EditIncidentForm() {
                     <input
                         name="witness"
                         value={formData.witness}
-                        placeholder={incident.witness}
-
                         onChange={handleChange}
                     />
                 </div>
@@ -91,11 +73,10 @@ function EditIncidentForm() {
                     <input
                         name="description"
                         value={formData.description}
-                        placeholder={incident.description}
                         onChange={handleChange}
                     />
                 </div>
-                <button>Update</button>
+                <button>Add Incident</button>
                 </form>
             </div>
         </div>
@@ -103,4 +84,4 @@ function EditIncidentForm() {
 }
 
 
-export default EditIncidentForm;
+export default NewIncidentForm;

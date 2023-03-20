@@ -1,20 +1,20 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import Dashboard from "./Dashboard";
-import Notes from "./Notes";
+import ProtectedRoute from "./ProtectedRoute"
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-import ProtectedRoute from "./ProtectedRoute"
-import Incidents from "./Incidents";
+import Dashboard from "./Dashboard";
 import EditProfileForm from "./EditProfileForm";
-import EditNoteForm from "./EditNoteForm";
-import EditIncidentForm from "./EditIncidentForm";
-import AttendanceReports from "./AttendanceReports";
-import EditAttendanceReportForm from "./EditAttendanceReportForm";
-import Tips from "./Tips";
-import EditTipForm from "./EditTipForm";
-import StaffReports from "./StaffReports";
-import EditStaffReportForm from "./EditStaffReportForm";
+import Notes from "./Notes/Notes";
+import EditNoteForm from "./Notes/EditNoteForm";
+import Incidents from "./Incidents/Incidents";
+import EditIncidentForm from "./Incidents/EditIncidentForm";
+import Tips from "./Tips/Tips";
+import EditTipForm from "./Tips/EditTipForm";
+import StaffReports from "./StaffReports/StaffReports";
+import EditStaffReportForm from "./StaffReports/EditStaffReportForm";
+import AttendanceReports from "./EmployeeAttendanceReports/AttendanceReports";
+import EditAttendanceReportForm from "./EmployeeAttendanceReports/EditAttendanceReportForm";
 
 
 function Routes({ login, signup }) {

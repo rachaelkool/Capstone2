@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import DashboardApi from "./api/api";
+import DashboardApi from "../api/api";
 import { useLocation, Link } from "react-router-dom";
 import NewStaffReportForm from "./NewStaffReportForm";
-import UserContext from "./UserContext";
+import UserContext from "../UserContext";
 
 
 function StaffReports() {

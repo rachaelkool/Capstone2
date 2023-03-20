@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import UserContext from "./UserContext";
-import DashboardApi from "./api/api";
+import UserContext from "../UserContext";
+import DashboardApi from "../api/api";
 
 
 function EditNoteForm() {

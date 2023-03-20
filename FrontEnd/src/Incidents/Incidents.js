@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import DashboardApi from "./api/api";
+import DashboardApi from "../api/api";
 import { useLocation, Link } from "react-router-dom";
 import NewIncidentForm from "./NewIncidentForm";
-import UserContext from "./UserContext";
+import UserContext from "../UserContext";
 
 
 function Incidents() {
