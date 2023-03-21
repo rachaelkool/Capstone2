@@ -22,10 +22,13 @@ function StaffReports() {
 
     useEffect(function getReportsForDashboard() {
         async function getStaffReports() {
+            if (!DashboardApi.token) { 
+                return;
+            }
             setReports(await DashboardApi.getStaffReports());
         }
         getStaffReports();
-    }, []);
+    }, [DashboardApi.token]);
     
     if (!staff_reports) return null;
 

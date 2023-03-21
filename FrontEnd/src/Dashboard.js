@@ -7,9 +7,7 @@ import moment from 'moment';
 import './css/dashboard.css'
 
 
-
 function Dashboard() {
-    
     const [date, setDate] = useState('2023-02-22');
 
     const { currentEmployee } = useContext(UserContext);
@@ -19,7 +17,6 @@ function Dashboard() {
     }
 
     function loggedInDashboard() {
-        console.log(date);
         return (
             <div className="dashboard-container">
                 <div className="date-header">
@@ -82,5 +79,6 @@ function Dashboard() {
         </div>
     );
 }
+
 
 export default Dashboard;

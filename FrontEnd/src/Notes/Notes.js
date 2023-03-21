@@ -21,10 +21,13 @@ function Notes() {
 
     useEffect(function getNotesForDashboard() {
         async function getNotes() {
+            if (!DashboardApi.token) { 
+                return;
+            }
             setNotes(await DashboardApi.getNotes());
         }
         getNotes();
-    }, []);
+    }, [DashboardApi.token]);
     
     if (!notes) return null;
 

@@ -22,10 +22,13 @@ function AttendanceReports() {
 
     useEffect(function getReportsForDashboard() {
         async function getAttendanceReports() {
+            if (!DashboardApi.token) { 
+                return;
+            }
             setReports(await DashboardApi.getAttendanceReports());
         }
         getAttendanceReports();
-    }, []);
+    }, [DashboardApi.token]);
     
     if (!attendance_reports) return null;
 

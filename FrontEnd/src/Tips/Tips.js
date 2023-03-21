@@ -22,10 +22,13 @@ function Tips() {
 
     useEffect(function getTipsForDashboard() {
         async function getTips() {
+            if (!DashboardApi.token) { 
+                return;
+            }
             setTips(await DashboardApi.getTips());
         }
         getTips();
-    }, []);
+    }, [DashboardApi.token]);
     
     if (!tips) return null;
 

@@ -12,20 +12,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(authenticateJWT)
 
-const notesRoutes = require("./routes/notes");
 const authRoutes = require("./routes/auth");
 const employeesRoutes = require("./routes/employees");
+const notesRoutes = require("./routes/notes");
 const incidentsRoutes = require("./routes/incidents");
 const attendanceRoutes = require("./routes/attendance_reports");
 const tipsRoutes = require("./routes/tips");
 const staffRoutes = require("./routes/staff_reports");
-app.use("/notes", notesRoutes);
 app.use("/auth", authRoutes);
 app.use("/employees", employeesRoutes);
-app.use("/incidents", incidentsRoutes);
-app.use("/attendance", attendanceRoutes);
-app.use("/tips", tipsRoutes);
-app.use("/staff", staffRoutes);
+app.use("/api/notes", notesRoutes);
+app.use("/api/incidents", incidentsRoutes);
+app.use("/api/attendance", attendanceRoutes);
+app.use("/api/tips", tipsRoutes);
+app.use("/api/staff", staffRoutes);
 
 
 app.use(function (req, res, next) {

@@ -22,10 +22,13 @@ function Incidents() {
 
     useEffect(function getIncidentsForDashboard() {
         async function getIncidents() {
+            if (!DashboardApi.token) { 
+                return;
+            }
             setIncidents(await DashboardApi.getIncidents());
         }
         getIncidents();
-    }, []);
+    }, [DashboardApi.token]);
 
     if (!incidents) return null;
 
