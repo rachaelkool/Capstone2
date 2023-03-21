@@ -20,7 +20,12 @@ function NewStaffReportForm({addReport, date}) {
             entered_by : currentEmployee.empId
         };
         addReport({...reportData})
-        setFormData({})
+        setFormData({
+            server: '',
+            section: '',
+            guests_served: '',
+            total_sales: ''
+        })
 
         try {
             newReport = await DashboardApi.createStaffReport(reportData);

@@ -17,7 +17,7 @@ function NewNoteForm({addNote, date}) {
             emp_id: currentEmployee.empId
         };
         addNote({...noteData, first_name: currentEmployee.firstName, last_name:currentEmployee.lastName})
-        setFormData({})
+        setFormData({ content: ''})
 
         try {
             newNote = await DashboardApi.createNote(noteData);

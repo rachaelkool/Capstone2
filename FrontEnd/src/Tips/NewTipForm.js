@@ -18,7 +18,10 @@ function NewTipForm({addTip, date}) {
             entered_by: currentEmployee.empId
         };
         addTip({...tipData, first_name: currentEmployee.firstName, last_name:currentEmployee.lastName })
-        setFormData({})
+        setFormData({
+            total_sales: '',
+            total_tips: ''
+        })
 
         try {
             newTip = await DashboardApi.createTip(tipData);

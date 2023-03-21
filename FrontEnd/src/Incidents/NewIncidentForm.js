@@ -20,7 +20,12 @@ function NewIncidentForm({addIncident, date}) {
             entered_by: currentEmployee.empId
         };
         addIncident({...incidentData, first_name: currentEmployee.firstName, last_name:currentEmployee.lastName})
-        setFormData({})
+        setFormData({
+            severity: '',
+            reporting_manager: '',
+            witness: '',
+            description: ''
+        })
 
         try {
             newIncident = await DashboardApi.createIncident(incidentData);
