@@ -192,37 +192,3 @@ VALUES (1001,
         'Doo',
         TRUE);
       
-INSERT INTO notes (date, content, emp_id)
-VALUES ('2023-02-22',
-        'This is a test note',
-        1001);
-
-INSERT INTO incidents (date, severity, reporting_manager, witness, description, entered_by)
-VALUES ('2023-02-22',
-        3,
-        'Rachael',
-        null,
-        'This is a test incident',
-        1001);
-
-INSERT INTO employee_attendance_reports (date, emp_id, sick_time, tardy, no_show, entered_by)
-VALUES ('2023-02-22',
-        1001,
-        true,
-        false,
-        false,
-        2001);
-
-INSERT INTO tips (date, total_sales, total_tips, entered_by)
-VALUES ('2023-02-22',
-        325.50,
-        65.1,
-        1001);
-
-INSERT INTO staff_reports (date, server, section, guests_served, total_sales, entered_by)
-VALUES ('2023-02-22',
-        'Scooby',
-        '2a',
-        300,
-        400.24,
-        2001);

@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="form"
+    >
+      <form
+        class="ui form"
+      >
+        <h3>
+          Input Tips
+        </h3>
+        <div
+          class="field"
+        >
+          <label
+            for="total_sales"
+          >
+            Total Sales:
+          </label>
+          <input
+            min="0"
+            name="total_sales"
+            step="0.01"
+            type="number"
+            value=""
+          />
+        </div>
+        <div
+          class="field"
+        >
+          <label
+            for="total_tips"
+          >
+            Total Tips:
+          </label>
+          <input
+            min="0"
+            name="total_tips"
+            step="0.01"
+            type="number"
+            value=""
+          />
+        </div>
+        <button>
+          Add
+        </button>
+      </form>
+    </div>
+  </div>
+</DocumentFragment>
+`;

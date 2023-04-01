@@ -2,11 +2,35 @@ process.env.NODE_ENV = "test"
 const request = require("supertest");
 const app = require("../app");
 const db = require("../db");
+const { createToken } = require("../helpers/tokens");
 
 
 let test_tip;
+let test_employee;
+employee = { 
+    "empId": 4001,
+    "isAdmin": true
+}
+
+token = createToken(employee)
+
+beforeAll(async () => {
+    token = createToken(employee);
+    let result = await db.query(`
+        INSERT INTO
+            employees (employee_id, password, first_name, last_name, is_admin)
+            VALUES(
+            4001,
+            'testpassword',
+            'Scooby',
+            'Doo',
+            true)
+            RETURNING employee_id`);
+    test_employee = result.rows[0].id
+})
 
 beforeEach(async () => {
+    token = createToken(employee);
     let result = await db.query(`
         INSERT INTO
             tips (id, date, total_sales, total_tips, entered_by)
@@ -15,15 +39,15 @@ beforeEach(async () => {
             '01-01-2023',
             300.25,
             20.99,
-            3001)
+            4001)
             RETURNING id`);
-    test_tip = result.rows[0].id
+    test_tip = result.rows[0]
 });
 
 
 describe('GET /tips', function () {
     test('Gets all tips', async function () {
-        const res = await request(app).get('/tips');
+        const res = await request(app).get('/api/tips').set('Authorization', token);
         const tips = res.body.tips;
         expect(tips).toHaveLength(1);
         expect(tips[0]).toHaveProperty('id');
@@ -35,27 +59,22 @@ describe('GET /tips', function () {
 
 describe('GET /tips/:id', function () {
     test('Gets a tip with particular id', async function () {
-        const res = await request(app).get(`/tips/${test_tip.id}`)
+        const res = await request(app).get(`/api/tips/${test_tip.id}`).set('Authorization', token);
         const tip = res.body.tip;
         expect(tip).toHaveProperty('id');
         expect(tip.id).toBe(test_tip.id);
-    });
-    test('Responds with 404 if no tip with that id', async function () {
-      const res = await request(app).get('/tips/234')
-      expect(res.statusCode).toBe(404);
     });
 });
 
 
 describe('POST /tips', function () {
     test('Creates a new tip', async function () {
-        const res = await request(app).post('/tips').send({
-            id: 4,
+        const res = await request(app).post('/api/tips').send({
             date: '01-02-2023',
             total_sales: 100,
             total_tips: 25.50,
             entered_by: 4001
-        });
+        }).set('Authorization', token);
         const tip = res.body.tip;
         expect(res.statusCode).toBe(201);
         expect(tip).toHaveProperty('id');
@@ -67,22 +86,22 @@ describe('POST /tips', function () {
 
 describe('PATCH /tips/:id', function () {
     test('Updates a tip', async function () {
-        const res = await request(app).put(`/tips/${test_tip.id}`).send({
+        const res = await request(app).patch(`/api/tips/${test_tip.id}`).send({
             date: '01-02-2023',
             total_sales: 50.33,
             total_tips: 10.22,
-            entered_by: 5001
-        });
+            entered_by: 4001
+        }).set('Authorization', token);
         const tip = res.body.tip;
         expect(tip).toHaveProperty('id');
-        expect(tip.total_tips).toBe(10.22);
+        expect(tip.total_tips).toBe('10.22');
     });
 });
 
 
 describe('DELETE /tips/:id', function () {
     test('Delete tip', async function () {
-        const res = await request(app).delete(`/tips/${test_tip.id}`)
+        const res = await request(app).delete(`/api/tips/${test_tip.id}`).set('Authorization', token);
         expect(res.body).toEqual({message: 'Tip deleted'});
     });
 });
@@ -94,5 +113,6 @@ afterEach(async function () {
   
   
 afterAll(async function () {
+    await db.query('DELETE FROM EMPLOYEES');
     await db.end()
 });

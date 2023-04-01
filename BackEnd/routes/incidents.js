@@ -23,7 +23,7 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
     }
 });
 
-router.post("", ensureCorrectEmployee, async function (req, res, next) {
+router.post("/", ensureCorrectEmployee, async function (req, res, next) {
     try {
         const data = req.body;
         const incident = await Incidents.create(data);

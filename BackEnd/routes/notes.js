@@ -3,7 +3,6 @@ const router = new Router();
 const Notes = require("../models/notes");
 const { ensureCorrectEmployee, ensureLoggedIn } = require("../middleware/auth");
 
-
 router.get("/:id", ensureLoggedIn, async function (req, res, next) {
     try {
         id = req.params.id
@@ -23,7 +22,7 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
     }
 });
 
-router.post("", ensureCorrectEmployee, async function (req, res, next) {
+router.post("/", ensureCorrectEmployee, async function (req, res, next) {
     try {
         const data = req.body;
         const note = await Notes.create(data);

@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditTipForm matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="feature-container"
+  >
+    <h3>
+      Input Tips
+    </h3>
+    <div
+      class="form"
+    >
+      <form
+        class="ui form"
+      >
+        <div
+          class="field"
+        >
+          <label
+            for="total_sales"
+          >
+            Total Sales:
+          </label>
+          <input
+            name="total_sales"
+            step="0.01"
+            type="number"
+            value=""
+          />
+        </div>
+        <div
+          class="field"
+        >
+          <label
+            for="total_tips"
+          >
+            Total Tips:
+          </label>
+          <input
+            name="total_tips"
+            step="0.01"
+            type="number"
+            value=""
+          />
+        </div>
+        <button>
+          Update
+        </button>
+      </form>
+    </div>
+  </div>
+</DocumentFragment>
+`;
