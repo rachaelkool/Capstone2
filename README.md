@@ -6,4 +6,16 @@ The application will have sign up/ log in options for users. When logged in, use
 
 Tech stack: Node.js/ React
 
-Testing: 
+Testing: front end- npm test; back end- npx jest
+
+
+# User Flow
+
+Login/ Signup page: https://app.screencast.com/HTbi6OVbF2GVC?conversation=MvLrs1HXipxhqEBkX5YCSy
+
+Main dashboard when logged in: https://app.screencast.com/OajaESlGk59wZ?conversation=silYoYLWOdeKkJVCmxymg2
+
+Example feature: https://app.screencast.com/iuIEo14YsRUaN?conversation=D4tlmDuQX0mJisKbj67URU
+
+Example edit data form: https://app.screencast.com/SAqkqpyUJI7Cz?conversation=shDycR4gEUdy9zkPx2Jibk
+
