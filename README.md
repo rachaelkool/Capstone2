@@ -9,7 +9,7 @@ Tech stack: Node.js/ React
 Testing: front end- npm test; back end- npx jest
 
 
-# User Flow
+## User Flow
 
 Login/ Signup page: https://app.screencast.com/HTbi6OVbF2GVC?conversation=MvLrs1HXipxhqEBkX5YCSy
 
